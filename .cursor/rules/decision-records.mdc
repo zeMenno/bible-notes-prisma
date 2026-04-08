@@ -1,0 +1,46 @@
+---
+description: Require documenting impactful decisions as Cursor rules
+alwaysApply: true
+---
+
+# Impactful decisions must be captured as Cursor rules
+
+Whenever we make an impactful decision in this repository, we must capture it as a **new Cursor rule** (`.mdc`) under `.cursor/rules/decisions/` **in the same change/PR**.
+
+## What counts as “impactful”
+
+Create a decision record for any change that materially affects one or more of:
+
+- Architecture or design direction
+- Data model, storage format, migrations, or persistence choices
+- Dependency additions/removals or major upgrades (including tooling)
+- Public interfaces (APIs, CLIs, exported libraries), file formats, or breaking behavior changes
+- Security/privacy posture, authn/authz, secrets handling
+- Performance/scalability trade-offs or caching strategy
+- Testing strategy or CI behavior that changes how we validate correctness
+- Operational workflows (deployment, release, backup/restore, environment configuration)
+
+If unsure, treat it as impactful and write the decision record.
+
+## How to write it
+
+- Create a new rule file at `.cursor/rules/decisions/YYYY-MM-DD-short-title.mdc`.
+- Start from `.cursor/rules/decisions/0000-template.mdc`.
+- Set applicability based on the type/scope of the change:
+  - Repo-wide decision → `alwaysApply: true` (no `globs`)
+  - Area-specific decision → `globs: path/**`
+  - Language/tool-specific decision → `globs: **/*.{ext1,ext2}` (or the closest matching patterns)
+- Keep it short and specific:
+  - Context + decision
+  - Constraints we must not violate
+  - Consequences/trade-offs
+  - When/why this decision might be revisited
+
+## Workflow requirement
+
+Before implementing an impactful change, explicitly state (in chat and/or PR description) that you will:
+
+- Create the decision rule first (or in the same commit)
+- Link the decision rule path in the PR description (or commit message)
+
+Do not proceed with impactful changes without capturing the decision record.

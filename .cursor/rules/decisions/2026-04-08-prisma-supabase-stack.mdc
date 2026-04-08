@@ -1,0 +1,44 @@
+---
+description: Decision: Prisma + Supabase (Next.js, server-only access, Prisma Migrate)
+alwaysApply: true
+---
+
+# Decision: Prisma + Supabase stack and boundaries
+
+- Date: 2026-04-08
+- Status: accepted
+- Scope: Repo-wide (DB, auth, migrations, env usage)
+
+## Context
+
+We want a Postgres-backed app with managed auth and a strongly typed server-side data layer.
+We also want to avoid exposing database access from the browser and keep migrations consistent.
+
+## Decision
+
+- Use **Supabase Postgres** as the database.
+- Use **Supabase Auth** for authentication/session management (SSR cookie-based).
+- Use **Prisma** for all application data access on the server.
+- Own schema evolution with **Prisma Migrate** (`prisma/migrations`).
+- Do **not** query app tables from the browser using Supabase client SDK (server-only access).
+
+## Constraints (must hold going forward)
+
+- Do not commit real secrets. Keep `.env` uncommitted; update `.env.example` for new variables.
+- Any database schema change must come from Prisma migrations (no “hand edits” in Supabase SQL editor unless captured as a migration).
+- Prisma client usage should be via `src/lib/prisma.ts` (singleton pattern).
+- Supabase Auth SSR must keep cookie/session refresh via `middleware.ts`.
+
+## Consequences / trade-offs
+
+- **Pros**: typed queries, consistent migrations, DB remains private, simpler security surface.
+- **Cons**: more server work (API/routes/actions) vs direct client Supabase queries + RLS patterns.
+
+## Revisit conditions
+
+Revisit if we decide to:
+
+- Move to a client-heavy Supabase pattern with strict RLS and direct browser queries, or
+- Adopt Supabase migrations/CLI as the schema source of truth, or
+- Need multi-tenant authz enforced primarily in DB policies instead of server code.
+

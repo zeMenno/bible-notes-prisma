@@ -1,0 +1,36 @@
+---
+description: Decision: <short title>
+# Set ONE of the following:
+# - alwaysApply: true              # only for repo-wide decisions
+# - globs: <pattern(s)>            # for decisions limited to certain file types/areas
+alwaysApply: false
+globs: "**/*"
+---
+
+# Decision: <short title>
+
+- Date: YYYY-MM-DD
+- Status: proposed | accepted | superseded | reverted
+- Scope: <what parts of the repo this impacts>
+
+## Context
+
+What problem are we solving? What constraints matter?
+
+## Decision
+
+What are we doing, and what are we explicitly not doing?
+
+## Constraints (must hold going forward)
+
+- <constraint 1>
+- <constraint 2>
+
+## Consequences / trade-offs
+
+- <consequence 1>
+- <consequence 2>
+
+## Revisit conditions
+
+What new information would cause us to change this decision?
