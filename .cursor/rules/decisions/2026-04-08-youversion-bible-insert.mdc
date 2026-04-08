@@ -1,0 +1,38 @@
+---
+description: Decision: YouVersion Platform SDK for Bible passage insert in Tiptap
+alwaysApply: false
+globs: "src/components/tiptap-ui/bible-insert-popover/**,src/components/tiptap-templates/simple/simple-editor.tsx,src/lib/bible-usfm.ts"
+---
+
+# Decision: YouVersion Platform SDK for Bible passage insert
+
+- Date: 2026-04-08
+- Status: accepted
+- Scope: Notes editor toolbar, Bible popover UI, client env vars
+
+## Context
+
+We want users to insert scripture from a verse range into notes, using the same popover pattern as the link tool. We need a licensed Bible data source with a maintained React integration.
+
+## Decision
+
+- Use the **YouVersion Platform React SDK** (`@youversion/platform-react-ui` / `@youversion/platform-react-hooks`) for listing translations, books, chapters, verses, and fetching passage **text** via `BibleClient.getPassage`.
+- Wrap the **Simple Editor** subtree with **`YouVersionProvider`** using **`includeAuth` omitted (false)** so scripture insert does not require YouVersion OAuth; only an **App Key** is required.
+- Store `NEXT_PUBLIC_YOUVERSION_APP_KEY` in `.env` (documented in `.env.example`); never commit real keys.
+- Insert passages as standard Tiptap **blockquote** JSON (body + attribution paragraph). **Postgres note `content` remains Tiptap JSON**; no schema change.
+- **Same-chapter USFM ranges only** for v1 (e.g. `JHN.3.16-18`), built in [`src/lib/bible-usfm.ts`](src/lib/bible-usfm.ts).
+
+## Constraints (must hold going forward)
+
+- Keep **YouVersion copyright / attribution** requirements on inserted content (footer line referencing translation and YouVersion).
+- Do not bypass the SDK for arbitrary HTML into the editor without sanitization; prefer **`format: "text"`** from `getPassage` mapped to ProseMirror text nodes.
+- If we later enable **YouVersion OAuth**, add `includeAuth: true`, `authRedirectUrl`, and Platform redirect URL configuration in the same change.
+
+## Consequences / trade-offs
+
+- **Pros**: Official API, hooks for metadata, consistent with YouVersion licensing; minimal custom Bible indexing.
+- **Cons**: Client-exposed app key (expected for this SDK); dependency on third-party uptime and terms; global CSS from YouVersion prebuilt components is avoided by using hooks, not their styled passage widgets.
+
+## Revisit conditions
+
+Revisit if we switch Bible providers, require **server-only** scripture fetch, need **cross-chapter** or **multi-book** ranges as first-class, or adopt YouVersion prebuilt UI components despite CSS overlap risk.

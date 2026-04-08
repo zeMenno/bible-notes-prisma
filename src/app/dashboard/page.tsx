@@ -30,6 +30,15 @@ export default async function DashboardPage() {
           <p className="text-sm text-muted-foreground">Signed in as</p>
           <p className="mt-1 font-medium">{session.user.email}</p>
         </div>
+
+        <div className="mt-6">
+          <Link
+            className="inline-flex h-11 min-h-11 w-full items-center justify-center rounded-md bg-primary text-sm font-medium text-primary-foreground sm:w-auto sm:px-6"
+            href="/notes"
+          >
+            Open notes
+          </Link>
+        </div>
       </div>
     </div>
   );

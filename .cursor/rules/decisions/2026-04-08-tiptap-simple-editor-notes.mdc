@@ -1,0 +1,37 @@
+---
+description: Decision: Tiptap Simple Editor + JSON notes in Postgres
+alwaysApply: false
+globs: "src/app/notes/**,src/app/api/notes/**,src/components/tiptap-templates/**,src/lib/note-default-content.ts"
+---
+
+# Decision: Tiptap Simple Editor + JSON notes in Postgres
+
+- Date: 2026-04-08
+- Status: accepted
+- Scope: Notes feature, editor UI, note APIs, persistence format
+
+## Context
+
+We need a mobile-friendly rich text editor for per-user notes, with room to add Bible-specific behavior later. We want open-source-friendly components and server-side data access via Prisma.
+
+## Decision
+
+- Use the **Tiptap Simple Editor** template (MIT) added via `@tiptap/cli`, integrated with the existing Next.js App Router and Tailwind/shadcn styling.
+- Persist note body as **Tiptap JSON** in Postgres (`Note.content` JSONB), not HTML.
+- Expose **authenticated** REST handlers under `/api/notes` for list/create and `/api/notes/[id]` for read/update; **never** trust client `userId` — scope all queries with `session.user.id`.
+- **Postgres is the source of truth** for document content; template demo defaults apply only when no saved JSON is provided.
+
+## Constraints (must hold going forward)
+
+- Do not store passwords or session secrets in note content APIs; keep using NextAuth for auth.
+- Schema changes for notes must go through **Prisma Migrate** (`prisma/migrations`).
+- Prefer extending the editor via Tiptap extensions and keeping JSON compatible with stored documents (migrations if shape changes).
+
+## Consequences / trade-offs
+
+- **Pros**: MIT template, responsive toolbar, straightforward JSON round-trip for future custom nodes.
+- **Cons**: Stock image upload remains a placeholder until a real upload endpoint is implemented; template SCSS may affect global `body` styles and needs occasional alignment with app tokens.
+
+## Revisit conditions
+
+Revisit if we switch to the Notion-like / cloud-backed template, move to HTML storage, or require real-time collaboration as the primary sync model.

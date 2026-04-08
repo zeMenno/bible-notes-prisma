@@ -84,6 +84,7 @@
 }
 
 .dark {
+  color-scheme: dark;
   --background: oklch(0.153 0.006 107.1);
   --foreground: oklch(0.988 0.003 106.5);
   --card: oklch(0.228 0.013 107.4);
@@ -117,6 +118,27 @@
   --sidebar-ring: oklch(0.58 0.031 107.3);
 }
 
+/*
+  Tiptap Simple Editor template ships --tt-brand-color-* as purple in _variables.scss.
+  Map the ramp to shadcn --primary so toolbar active states, links, and cursor match the app.
+  Placed after .dark so var(--primary) resolves to light or dark correctly on <html>.
+*/
+:root {
+  --tt-brand-color-50: color-mix(in oklch, var(--primary) 14%, white);
+  --tt-brand-color-100: color-mix(in oklch, var(--primary) 24%, white);
+  --tt-brand-color-200: color-mix(in oklch, var(--primary) 38%, white);
+  --tt-brand-color-300: color-mix(in oklch, var(--primary) 52%, white);
+  --tt-brand-color-400: color-mix(in oklch, var(--primary) 68%, white);
+  --tt-brand-color-500: var(--primary);
+  --tt-brand-color-600: color-mix(in oklch, var(--primary) 78%, black);
+  --tt-brand-color-700: color-mix(in oklch, var(--primary) 62%, black);
+  --tt-brand-color-800: color-mix(in oklch, var(--primary) 48%, black);
+  --tt-brand-color-900: color-mix(in oklch, var(--primary) 32%, black);
+  --tt-brand-color-950: color-mix(in oklch, var(--primary) 18%, black);
+  --tt-cursor-color: var(--primary);
+  --tt-selection-color: oklch(from var(--primary) l c h / 0.22);
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
@@ -127,4 +149,28 @@
   html {
     @apply font-sans;
   }
+}
+
+/* Tiptap / ProseMirror (notes editor) */
+.prose-note.ProseMirror {
+  min-height: inherit;
+}
+
+.prose-note.ProseMirror:focus-visible {
+  outline: none;
+}
+
+.prose-note p.is-editor-empty:first-child::before {
+  color: var(--muted-foreground);
+  content: attr(data-placeholder);
+  float: left;
+  height: 0;
+  pointer-events: none;
+}
+
+/* Notes: keep Tiptap Simple Editor inside the app shell (template defaults to 100vh/100vw) */
+.note-editor-shell .simple-editor-wrapper {
+  width: 100%;
+  height: calc(100dvh - 5.5rem);
+  max-height: calc(100dvh - 5.5rem);
 }

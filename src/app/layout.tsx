@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Noto_Sans, Raleway } from "next/font/google";
+
+/* Tiptap UI tokens (--white, --tt-gray-*, shadows, radius). Required for dropdowns/popovers portaled to document. */
+import "@/styles/_variables.scss";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 
@@ -30,7 +33,16 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={cn("h-full", "antialiased", geistSans.variable, geistMono.variable, "font-sans", notoSans.variable, ralewayHeading.variable)}
+      className={cn(
+        "dark",
+        "h-full",
+        "antialiased",
+        geistSans.variable,
+        geistMono.variable,
+        "font-sans",
+        notoSans.variable,
+        ralewayHeading.variable,
+      )}
     >
       <body className="min-h-full flex flex-col">{children}</body>
     </html>
