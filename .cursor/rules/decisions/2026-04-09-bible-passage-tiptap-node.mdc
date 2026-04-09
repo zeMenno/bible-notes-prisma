@@ -1,0 +1,40 @@
+---
+description: Decision: biblePassage Tiptap node for structured scripture in note JSON
+alwaysApply: true
+---
+
+# Decision: `biblePassage` Tiptap node for structured scripture inserts
+
+- Date: 2026-04-09
+- Status: accepted
+- Scope: Notes editor schema, persisted Tiptap JSON (`Note.content`), cross-reference helpers
+
+## Context
+
+Scripture was first inserted as plain `blockquote` nodes with verse text and a YouVersion attribution paragraph. That made reliable cross-referencing (by USFM, version, etc.) depend on parsing prose.
+
+## Decision
+
+- Represent each scripture insert as a dedicated block node **`biblePassage`** in Tiptap JSON.
+- Store **cross-ref metadata** in **node attributes** only: `usfm`, `reference` (from YouVersion `getPassage`), `versionId`, `versionTitle`.
+- Store **verse text and attribution** as **two child `paragraph` nodes** (same licensing line as before). Users may apply **marks** (bold, underline, highlight, etc.) inside those paragraphs; they must **not** change the underlying plain text (no typing, paste, or delete that alters characters).
+- Enforce the text lock with a **ProseMirror `filterTransaction` plugin** ([`bible-passage-lock-plugin.ts`](src/components/tiptap-node/bible-passage-node/bible-passage-lock-plugin.ts)): any transaction that changes the flattened plain text inside an existing `biblePassage` is rejected; deleting the **whole** block is still allowed.
+- **Deliberate replace**: Refetching a different range/translation replaces the whole node via the **`replaceBiblePassage`** command on the [`BiblePassage`](src/components/tiptap-node/bible-passage-node/bible-passage-extension.ts) extension. That transaction sets meta **`biblePassageReplace`** (`BIBLE_PASSAGE_REPLACE_META`); the lock plugin **allows** doc changes for that transaction only. Do not set this meta from generic editing paths.
+- Serialize to HTML as a **`div.tiptap-bible-passage`** wrapping two paragraphs, with `data-bible-passage` and matching `data-*` metadata attrs so StarterKit’s `blockquote` parser does not consume these blocks on paste/parse.
+- **Backward compatibility**: legacy **`blockquote`** inserts; atom-era saves that stored `body` / `attribution` on attrs only; and paragraph-shaped `biblePassage` nodes are normalized on load via **`migrateBiblePassageDoc`** in [`src/lib/note-bible-passages.ts`](src/lib/note-bible-passages.ts). Consumers should prefer attrs on `biblePassage` for identity and may use the legacy blockquote heuristic for older content.
+
+## Constraints (must hold going forward)
+
+- Keep the **attribution paragraph** on new inserts; align with YouVersion/translation requirements in [2026-04-08-youversion-bible-insert.mdc](2026-04-08-youversion-bible-insert.mdc).
+- Cross-reference code should read **`biblePassage` attrs** for identity, not parsed prose.
+- **No Prisma schema change** for this node unless we add a citation index table later.
+- Only **`replaceBiblePassage` + `biblePassageReplace` meta** may change verse/attribution plain text in place; never loosen the lock for arbitrary transactions.
+
+## Consequences / trade-offs
+
+- **Pros**: Structured attrs for linking; readable passage text; emphasis/highlight via marks; plain text cannot drift except via whole-node delete or **`replaceBiblePassage`** (Bible UI refetch).
+- **Cons**: Plugin must stay in sync with any new ways text could change (e.g. collaborative editing); IME/composition edge cases may need follow-up if they surface.
+
+## Revisit conditions
+
+Revisit if we add **Postgres citation indexing**, switch Bible providers, allow editable quoted text again, or need collaborative editing inside passages.

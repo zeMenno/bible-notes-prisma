@@ -1,0 +1,38 @@
+---
+description: Decision: English marketing site, shared components, MDX blog, WEB quotes
+alwaysApply: true
+---
+
+# Decision: English marketing site, shared components, MDX blog, WEB quotes
+
+- Date: 2026-04-09
+- Status: accepted
+- Scope: Repo-wide (public marketing routes, SEO, blog content, copy accuracy)
+
+## Context
+
+We needed a larger public surface for discovery (SEO), consistent navigation, reusable layout pieces across home, feature pages, pricing, legal, and blog, and crawler-friendly `robots` and `sitemap` output. Marketing copy must stay honest about shipped functionality.
+
+## Decision
+
+- Use **English** for all marketing and blog content under the shared `(marketing)` layout.
+- Centralize chrome and primitives in **`src/components/site/`** (`SiteHeader`, `SiteFooter`, `Container`, `Section`, `PageHero`, `VerseCallout`, feature cards, `MdxProse`, optional client tabs).
+- Host MDX posts in **`content/blog/*.mdx`** with YAML frontmatter; load and compile with **`gray-matter`** + **`next-mdx-remote` (RSC)** via **`src/lib/blog.ts`**.
+- Use **`src/app/robots.ts`** and **`src/app/sitemap.ts`** with **`getSiteUrl()`** (`NEXTAUTH_URL` fallback) for absolute URLs.
+- For **static Scripture quotations on marketing and blog pages**, prefer the **World English Bible (WEB)** and label the translation so we do not imply copyrighted modern translations on marketing copy.
+- **Do not** claim features that are not implemented (no fake collaboration, AI writing, mobile apps, or import promises).
+
+## Constraints (must hold going forward)
+
+- New marketing claims must match **current** product behavior; remove or reword copy when features change.
+- Keep **no em dash** style in user-facing marketing strings when editing this area (use commas, colons, or parentheses).
+- Blog and sitemap must stay in sync: new MDX files need valid frontmatter (`title`, `description`, `date`) and should appear in the sitemap via `getAllPosts()`.
+
+## Consequences / trade-offs
+
+- **Pros**: Reusable site shell, file-based blog without a CMS, clearer SEO and crawler signals, safer Scripture licensing posture on static pages.
+- **Cons**: `content/blog` must be deployed with the app; MDX compilation adds dependencies and build-time work.
+
+## Revisit conditions
+
+Revisit if we add **localized marketing**, a **headless CMS**, **OG images**, or need **non-WEB** static quotations with explicit licensing.

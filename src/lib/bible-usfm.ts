@@ -33,3 +33,44 @@ export function buildUsfmPassageRange(
   }
   return `${book}.${chapter}.${a}-${b}`
 }
+
+const USFM_SAME_CHAPTER =
+  /^([A-Za-z0-9]+)\.(\d+)\.(\d+)(?:-(\d+))?$/
+
+export type ParsedUsfmPassageRange = {
+  bookId: string
+  chapter: number
+  verseFrom: number
+  verseTo: number
+}
+
+/**
+ * Parse same-chapter USFM produced by {@link buildUsfmPassageRange}, e.g. `JHN.3.16` or `JHN.3.16-18`.
+ * Returns `null` if the string does not match that shape.
+ */
+export function parseUsfmPassageRange(usfm: string): ParsedUsfmPassageRange | null {
+  const trimmed = usfm.trim()
+  const m = USFM_SAME_CHAPTER.exec(trimmed)
+  if (!m) return null
+
+  const bookId = m[1].toUpperCase()
+  const chapter = parseInt(m[2], 10)
+  const v1 = parseInt(m[3], 10)
+  const v2 = m[4] != null ? parseInt(m[4], 10) : v1
+
+  if (
+    !bookId ||
+    Number.isNaN(chapter) ||
+    Number.isNaN(v1) ||
+    Number.isNaN(v2) ||
+    chapter < 1 ||
+    v1 < 1 ||
+    v2 < 1
+  ) {
+    return null
+  }
+
+  const verseFrom = Math.min(v1, v2)
+  const verseTo = Math.max(v1, v2)
+  return { bookId, chapter, verseFrom, verseTo }
+}

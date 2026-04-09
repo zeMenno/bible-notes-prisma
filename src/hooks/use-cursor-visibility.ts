@@ -14,6 +14,10 @@ export interface CursorVisibilityOptions {
    * Reference to the toolbar element that may obscure the cursor
    */
   overlayHeight?: number
+  /**
+   * Toolbar docked at the top (e.g. mobile) vs bottom — scroll direction differs.
+   */
+  overlayPlacement?: "top" | "bottom"
 }
 
 /**
@@ -27,6 +31,7 @@ export interface CursorVisibilityOptions {
 export function useCursorVisibility({
   editor,
   overlayHeight = 0,
+  overlayPlacement = "bottom",
 }: CursorVisibilityOptions) {
   const { height: windowHeight } = useWindowSize()
   const rect = useBodyRect({
@@ -46,26 +51,35 @@ export function useCursorVisibility({
       const { from } = state.selection
       const cursorCoords = view.coordsAtPos(from)
 
-      if (windowHeight < rect.height && cursorCoords) {
-        const availableSpace = windowHeight - cursorCoords.top
+      if (windowHeight < rect.height && cursorCoords && overlayHeight > 0) {
+        const currentScrollY = window.scrollY
+        const cursorAbsoluteY = cursorCoords.top + currentScrollY
 
-        // If the cursor is hidden behind the overlay or offscreen, scroll it into view
-        if (availableSpace < overlayHeight) {
-          const targetCursorY = Math.max(windowHeight / 2, overlayHeight)
-          const currentScrollY = window.scrollY
-          const cursorAbsoluteY = cursorCoords.top + currentScrollY
-          const newScrollY = cursorAbsoluteY - targetCursorY
-
-          window.scrollTo({
-            top: Math.max(0, newScrollY),
-            behavior: "smooth",
-          })
+        if (overlayPlacement === "top") {
+          if (cursorCoords.top < overlayHeight) {
+            const targetCursorY = overlayHeight + Math.min(120, windowHeight * 0.2)
+            const newScrollY = cursorAbsoluteY - targetCursorY
+            window.scrollTo({
+              top: Math.max(0, newScrollY),
+              behavior: "smooth",
+            })
+          }
+        } else {
+          const availableSpace = windowHeight - cursorCoords.top
+          if (availableSpace < overlayHeight) {
+            const targetCursorY = Math.max(windowHeight / 2, overlayHeight)
+            const newScrollY = cursorAbsoluteY - targetCursorY
+            window.scrollTo({
+              top: Math.max(0, newScrollY),
+              behavior: "smooth",
+            })
+          }
         }
       }
     }
 
     ensureCursorVisibility()
-  }, [editor, overlayHeight, windowHeight, rect.height])
+  }, [editor, overlayHeight, overlayPlacement, windowHeight, rect.height])
 
   return rect
 }

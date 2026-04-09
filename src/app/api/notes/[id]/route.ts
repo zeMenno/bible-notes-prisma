@@ -39,6 +39,31 @@ export async function GET(
   return NextResponse.json({ note });
 }
 
+export async function DELETE(
+  _req: Request,
+  context: { params: Promise<{ id: string }> },
+) {
+  const session = await getServerSession(authOptions);
+  if (!session?.user?.id) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  const { id } = await context.params;
+  const idParsed = uuidParam.safeParse(id);
+  if (!idParsed.success) {
+    return NextResponse.json({ error: "Not found" }, { status: 404 });
+  }
+
+  const result = await prisma.note.deleteMany({
+    where: { id: idParsed.data, userId: session.user.id },
+  });
+
+  if (result.count === 0) {
+    return NextResponse.json({ error: "Not found" }, { status: 404 });
+  }
+
+  return new NextResponse(null, { status: 204 });
+}
 export async function PATCH(
   req: Request,
   context: { params: Promise<{ id: string }> },

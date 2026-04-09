@@ -5,6 +5,7 @@ import dynamic from "next/dynamic";
 import Link from "next/link";
 import throttle from "lodash.throttle";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { migrateBiblePassageDoc } from "@/lib/note-bible-passages";
 
 const SimpleEditor = dynamic(
   () =>
@@ -34,6 +35,11 @@ export function NoteEditorClient({ noteId, initialTitle, initialContent }: Props
   const [saveState, setSaveState] = useState<SaveState>("idle");
   const allowPersist = useRef(false);
   const lastSyncedTitle = useRef(initialTitle);
+
+  const editorInitialContent = useMemo(
+    () => migrateBiblePassageDoc(initialContent),
+    [initialContent],
+  );
 
   useEffect(() => {
     setTitle(initialTitle);
@@ -123,42 +129,38 @@ export function NoteEditorClient({ noteId, initialTitle, initialContent }: Props
   return (
     <div className="note-editor-shell flex min-h-dvh flex-col bg-background">
       <header className="sticky top-0 z-20 border-b bg-background/95 px-3 py-3 pt-[max(0.75rem,env(safe-area-inset-top))] backdrop-blur supports-[backdrop-filter]:bg-background/80">
-        <div className="mx-auto flex w-full max-w-3xl flex-col gap-2 sm:flex-row sm:items-center sm:gap-3">
-          <div className="flex items-center gap-2">
-            <Link
-              href="/notes"
-              className="inline-flex h-10 min-w-10 shrink-0 items-center justify-center rounded-md border bg-background text-sm font-medium text-foreground"
-            >
-              ←
-            </Link>
-            <span
-              className="truncate text-xs text-muted-foreground sm:hidden"
-              aria-live="polite"
-            >
-              {saveStatusLabel}
-            </span>
-          </div>
+        <div className="mx-auto flex w-full max-w-3xl flex-row items-center gap-2 sm:gap-3">
+          <Link
+            href="/notes"
+            className="inline-flex h-10 min-w-10 shrink-0 items-center justify-center rounded-md border bg-background text-sm font-medium text-foreground"
+          >
+            ←
+          </Link>
           <input
-            className="min-h-10 w-full rounded-md border bg-background px-3 text-base font-medium text-foreground outline-none ring-ring focus-visible:ring-2"
+            className="min-h-10 min-w-0 flex-1 rounded-md border bg-background px-3 text-base font-medium text-foreground outline-none ring-ring focus-visible:ring-2"
             value={title}
             onChange={(e) => onTitleChange(e.target.value)}
             onBlur={() => saveTitleNow(title)}
             placeholder="Untitled"
             aria-label="Note title"
           />
-          <span
-            className="hidden shrink-0 text-xs text-muted-foreground sm:inline"
-            aria-live="polite"
-          >
-            {saveStatusLabel}
-          </span>
+          {saveStatusLabel ? (
+            <span
+              className="max-w-[4.5rem] shrink-0 truncate text-right text-xs text-muted-foreground sm:max-w-[10rem]"
+              aria-live="polite"
+              title={saveStatusLabel}
+            >
+              {saveStatusLabel}
+            </span>
+          ) : null}
         </div>
       </header>
 
-      <div className="min-h-0 flex-1">
+      <div className="flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden">
         <SimpleEditor
           key={noteId}
-          initialContent={initialContent}
+          layout="embedded"
+          initialContent={editorInitialContent}
           onDocumentChange={handleDocumentChange}
         />
       </div>

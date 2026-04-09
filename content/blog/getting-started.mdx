@@ -1,0 +1,31 @@
+---
+title: "Getting started with Bible Notes"
+description: "Create an account, open your first note, and see how autosave keeps your study safe."
+date: "2026-04-09"
+---
+
+# Getting started with Bible Notes
+
+Bible Notes is built for people who want Scripture and reflection in the same document. Here is a straight path from zero to your first saved study.
+
+## Create an account
+
+Visit the register page and choose an email plus password. The server stores a salted hash, not your password in plain text. After sign in, NextAuth keeps a session cookie so you can return without typing credentials every time.
+
+## Open the dashboard and start a note
+
+The dashboard links you to **My notes**. From there, choose **New note**. The app creates a row in Postgres tied to your user id and sends you to the editor.
+
+## Write and let autosave work
+
+The editor saves the title and JSON content on a throttle while you type. Watch for the saving indicator in the note chrome. You can close the tab once it shows saved.
+
+## Try the toolbar demo first (optional)
+
+If you want to explore formatting without creating a note, open [`/simple`](/simple). That page loads the same Tiptap surface but does not persist content.
+
+## What to do next
+
+Read [Scripture inserts and locked passage text](/blog/scripture-inserts-locked-text) when you are ready to pull verses in through the Bible picker.
+
+> "Your word is a lamp to my feet, and a light for my path." (Psalm 119:105, WEB)

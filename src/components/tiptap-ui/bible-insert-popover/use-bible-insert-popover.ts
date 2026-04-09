@@ -18,6 +18,13 @@ export function canInsertBiblePassage(editor: Editor | null): boolean {
   return true
 }
 
+/** Toolbar / popover trigger: allow opening when insert is allowed or cursor is inside a passage (replace). */
+export function canOpenBiblePassageUi(editor: Editor | null): boolean {
+  if (!editor || !editor.isEditable) return false
+  if (editor.isActive("biblePassage")) return true
+  return canInsertBiblePassage(editor)
+}
+
 export function shouldShowBibleInsertButton(props: {
   editor: Editor | null
   hideWhenUnavailable: boolean
@@ -36,38 +43,46 @@ export function useBibleInsertPopoverState(props: {
   hideWhenUnavailable: boolean
 }) {
   const { editor, hideWhenUnavailable = false } = props
-  const canInsert = canInsertBiblePassage(editor)
   const [isVisible, setIsVisible] = useState(true)
+  const [canInsert, setCanInsert] = useState(false)
+  const [passageActive, setPassageActive] = useState(false)
 
   useEffect(() => {
     if (!editor) return
-    const handleSelectionUpdate = () => {
+    const sync = () => {
       setIsVisible(
         shouldShowBibleInsertButton({ editor, hideWhenUnavailable }),
       )
+      setCanInsert(canOpenBiblePassageUi(editor))
+      setPassageActive(editor.isActive("biblePassage"))
     }
-    handleSelectionUpdate()
-    editor.on("selectionUpdate", handleSelectionUpdate)
+    sync()
+    editor.on("selectionUpdate", sync)
+    editor.on("transaction", sync)
     return () => {
-      editor.off("selectionUpdate", handleSelectionUpdate)
+      editor.off("selectionUpdate", sync)
+      editor.off("transaction", sync)
     }
   }, [editor, hideWhenUnavailable])
 
-  return { isVisible, canInsert }
+  return { isVisible, canInsert, passageActive }
 }
 
 export function useBibleInsertPopover(config?: UseBibleInsertPopoverConfig) {
   const { editor: providedEditor, hideWhenUnavailable = false } = config || {}
   const { editor } = useTiptapEditor(providedEditor)
-  const { isVisible, canInsert } = useBibleInsertPopoverState({
+  const { isVisible, canInsert, passageActive } = useBibleInsertPopoverState({
     editor,
     hideWhenUnavailable,
   })
 
+  const label = passageActive ? "Change Bible passage" : "Insert Bible passage"
+
   return {
     isVisible,
     canInsert,
-    label: "Insert Bible passage",
+    passageActive,
+    label,
   }
 }
 

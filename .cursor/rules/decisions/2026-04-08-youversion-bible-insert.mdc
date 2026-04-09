@@ -1,7 +1,7 @@
 ---
 description: Decision: YouVersion Platform SDK for Bible passage insert in Tiptap
 alwaysApply: false
-globs: "src/components/tiptap-ui/bible-insert-popover/**,src/components/tiptap-templates/simple/simple-editor.tsx,src/lib/bible-usfm.ts"
+globs: "src/components/tiptap-ui/bible-insert-popover/**,src/components/tiptap-templates/simple/simple-editor.tsx,src/lib/bible-usfm.ts,src/components/tiptap-node/bible-passage-node/**,src/lib/note-bible-passages.ts,src/app/notes/_components/note-editor-client.tsx"
 ---
 
 # Decision: YouVersion Platform SDK for Bible passage insert
@@ -19,13 +19,13 @@ We want users to insert scripture from a verse range into notes, using the same 
 - Use the **YouVersion Platform React SDK** (`@youversion/platform-react-ui` / `@youversion/platform-react-hooks`) for listing translations, books, chapters, verses, and fetching passage **text** via `BibleClient.getPassage`.
 - Wrap the **Simple Editor** subtree with **`YouVersionProvider`** using **`includeAuth` omitted (false)** so scripture insert does not require YouVersion OAuth; only an **App Key** is required.
 - Store `NEXT_PUBLIC_YOUVERSION_APP_KEY` in `.env` (documented in `.env.example`); never commit real keys.
-- Insert passages as standard Tiptap **blockquote** JSON (body + attribution paragraph). **Postgres note `content` remains Tiptap JSON**; no schema change.
+- **New inserts** use the Tiptap **`biblePassage`** block (attrs: `usfm`, `reference`, `versionId`, `versionTitle`; two child paragraphs for verse + attribution). Marks (bold, underline, etc.) are allowed; plain-text edits inside the block are blocked by a plugin. See [2026-04-09-bible-passage-tiptap-node.mdc](2026-04-09-bible-passage-tiptap-node.mdc). Older notes may still contain legacy **`blockquote`** inserts; **Postgres note `content` remains Tiptap JSON**; no schema change for this node.
 - **Same-chapter USFM ranges only** for v1 (e.g. `JHN.3.16-18`), built in [`src/lib/bible-usfm.ts`](src/lib/bible-usfm.ts).
 
 ## Constraints (must hold going forward)
 
 - Keep **YouVersion copyright / attribution** requirements on inserted content (footer line referencing translation and YouVersion).
-- Do not bypass the SDK for arbitrary HTML into the editor without sanitization; prefer **`format: "text"`** from `getPassage` mapped to ProseMirror text nodes.
+- Do not bypass the SDK for arbitrary HTML into the editor without sanitization; prefer **`format: "text"`** from `getPassage`, inserted as plain text in the `biblePassage` node’s two paragraphs (marks may be added later; character edits are filtered out).
 - If we later enable **YouVersion OAuth**, add `includeAuth: true`, `authRedirectUrl`, and Platform redirect URL configuration in the same change.
 
 ## Consequences / trade-offs

@@ -13,9 +13,11 @@ import {
 
 import { useIsBreakpoint } from "@/hooks/use-is-breakpoint"
 import { useTiptapEditor } from "@/hooks/use-tiptap-editor"
+import { buildBiblePassageJson } from "@/lib/bible-passage-tiptap"
 import {
   buildUsfmPassageRange,
   chapterNumberFromApi,
+  parseUsfmPassageRange,
   verseNumberFromApi,
 } from "@/lib/bible-usfm"
 import { CornerDownLeftIcon } from "@/components/tiptap-icons/corner-down-left-icon"
@@ -51,9 +53,15 @@ function FieldLabel({ children }: { children: React.ReactNode }) {
 export interface BibleInsertMainProps {
   editor: Editor | null
   onInserted?: () => void
+  /** When true (e.g. popover open), sync form from the current `biblePassage` node for replace mode. */
+  replaceSyncEnabled?: boolean
 }
 
-export function BibleInsertMain({ editor, onInserted }: BibleInsertMainProps) {
+export function BibleInsertMain({
+  editor,
+  onInserted,
+  replaceSyncEnabled = false,
+}: BibleInsertMainProps) {
   const bibleClient = useBibleClient()
   const isMobile = useIsBreakpoint()
 
@@ -121,6 +129,33 @@ export function BibleInsertMain({ editor, onInserted }: BibleInsertMainProps) {
       return nums[0] ?? null
     })
   }, [chapters])
+
+  useEffect(() => {
+    if (!replaceSyncEnabled || !editor) return
+
+    const syncFromPassage = () => {
+      if (!editor.isActive("biblePassage")) return
+      const attrs = editor.getAttributes("biblePassage") as {
+        usfm?: string
+        versionId?: number
+      }
+      const vid = Number(attrs.versionId) || 0
+      if (vid > 0) setVersionId(vid)
+      const parsed = parseUsfmPassageRange(String(attrs.usfm ?? ""))
+      if (parsed) {
+        setBookId(parsed.bookId)
+        setChapterNum(parsed.chapter)
+        setVerseFrom(parsed.verseFrom)
+        setVerseTo(parsed.verseTo)
+      }
+    }
+
+    syncFromPassage()
+    editor.on("selectionUpdate", syncFromPassage)
+    return () => {
+      editor.off("selectionUpdate", syncFromPassage)
+    }
+  }, [editor, replaceSyncEnabled])
 
   useEffect(() => {
     if (!verses?.data?.length) {
@@ -195,25 +230,20 @@ export function BibleInsertMain({ editor, onInserted }: BibleInsertMainProps) {
         false,
       )
       const body = passage.content.trim()
-      const attribution = `${passage.reference} (${versionTitle}). Scripture courtesy of YouVersion.`
+      const doc = buildBiblePassageJson({
+        usfm,
+        reference: passage.reference,
+        versionId,
+        versionTitle,
+        body: body || passage.reference,
+      })
 
-      editor
-        .chain()
-        .focus()
-        .insertContent({
-          type: "blockquote",
-          content: [
-            {
-              type: "paragraph",
-              content: [{ type: "text", text: body || passage.reference }],
-            },
-            {
-              type: "paragraph",
-              content: [{ type: "text", text: attribution }],
-            },
-          ],
-        })
-        .run()
+      const isReplace = editor.isActive("biblePassage")
+      if (isReplace) {
+        editor.chain().focus().replaceBiblePassage(doc).run()
+      } else {
+        editor.chain().focus().insertContent(doc).run()
+      }
 
       onInserted?.()
     } catch (e) {
@@ -250,6 +280,8 @@ export function BibleInsertMain({ editor, onInserted }: BibleInsertMainProps) {
     verseFrom != null &&
     verseTo != null &&
     !busy
+
+  const isReplaceMode = Boolean(editor?.isActive("biblePassage"))
 
   return (
     <Card
@@ -448,7 +480,7 @@ export function BibleInsertMain({ editor, onInserted }: BibleInsertMainProps) {
             <Button
               type="button"
               onClick={() => void handleInsert()}
-              title="Insert passage"
+              title={isReplaceMode ? "Update passage" : "Insert passage"}
               disabled={!canSubmit}
               variant="ghost"
             >
@@ -491,7 +523,13 @@ export function BibleInsertContent({
   onInserted?: () => void
 }) {
   const { editor: ctxEditor } = useTiptapEditor(editor)
-  return <BibleInsertMain editor={ctxEditor} onInserted={onInserted} />
+  return (
+    <BibleInsertMain
+      editor={ctxEditor}
+      onInserted={onInserted}
+      replaceSyncEnabled
+    />
+  )
 }
 
 export interface BibleInsertPopoverProps
@@ -516,7 +554,7 @@ export const BibleInsertPopover = forwardRef<
   ) => {
     const { editor } = useTiptapEditor(providedEditor)
     const [isOpen, setIsOpen] = useState(false)
-    const { isVisible, canInsert, label } = useBibleInsertPopover({
+    const { isVisible, canInsert, passageActive, label } = useBibleInsertPopover({
       editor,
       hideWhenUnavailable,
     })
@@ -552,7 +590,10 @@ export const BibleInsertPopover = forwardRef<
           <BibleInsertButton
             disabled={!canInsert}
             data-disabled={!canInsert}
+            data-active-state={passageActive ? "on" : "off"}
+            aria-pressed={passageActive}
             aria-label={label}
+            tooltip={label}
             onClick={handleClick}
             {...buttonProps}
             ref={ref}
@@ -562,7 +603,11 @@ export const BibleInsertPopover = forwardRef<
         </PopoverTrigger>
 
         <PopoverContent>
-          <BibleInsertMain editor={editor} onInserted={handleInserted} />
+          <BibleInsertMain
+            editor={editor}
+            onInserted={handleInserted}
+            replaceSyncEnabled={isOpen}
+          />
         </PopoverContent>
       </Popover>
     )

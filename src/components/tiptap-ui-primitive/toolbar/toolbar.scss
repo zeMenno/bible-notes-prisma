@@ -27,9 +27,8 @@
   }
 
   &[data-variant="fixed"] {
-    position: sticky;
-    top: 0;
-    z-index: 50;
+    position: relative;
+    z-index: 10;
     width: 100%;
     min-height: var(--tt-toolbar-height);
     background: var(--tt-toolbar-bg-color);
@@ -46,17 +45,18 @@
     }
 
     @media (max-width: 480px) {
-      position: absolute;
-      top: auto;
-      height: calc(var(--tt-toolbar-height) + var(--tt-safe-area-bottom));
-      border-top: 1px solid var(--tt-toolbar-border-color);
-      border-bottom: none;
-      padding: 0 0.5rem var(--tt-safe-area-bottom);
+      flex-shrink: 0;
       flex-wrap: nowrap;
       justify-content: flex-start;
 
       .tiptap-toolbar-group {
         flex: 0 0 auto;
+      }
+
+      .tiptap-button:not([data-size="small"]) {
+        height: 2.75rem;
+        min-width: 2.75rem;
+        padding: 0.5rem 0.625rem;
       }
     }
 
@@ -66,21 +66,16 @@
         --tt-toolbar-mobile-inline: max(1rem, env(safe-area-inset-left, 0px));
 
         height: auto;
-        min-height: calc(var(--tt-toolbar-height) + var(--tt-safe-area-bottom));
-        max-height: min(
-          85dvh,
-          calc(100dvh - env(safe-area-inset-top, 0px) - 0.5rem)
-        );
+        min-height: var(--tt-toolbar-height);
+        max-height: min(85dvh, calc(100dvh - env(safe-area-inset-top, 0px) - 1rem));
         overflow-x: hidden;
         overflow-y: auto;
         flex-wrap: wrap;
         align-content: flex-start;
         align-items: flex-start;
         row-gap: 0.5rem;
-        padding-top: 0.375rem;
-        padding-right: max(1rem, env(safe-area-inset-right, 0px));
-        padding-bottom: var(--tt-safe-area-bottom);
-        padding-left: var(--tt-toolbar-mobile-inline);
+        padding: 0.375rem max(1rem, env(safe-area-inset-right, 0px)) 0.5rem
+          var(--tt-toolbar-mobile-inline);
 
         > .tiptap-separator {
           display: none;

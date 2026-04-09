@@ -27,8 +27,10 @@ import {
 } from "@/components/tiptap-ui-primitive/toolbar"
 
 // --- Tiptap Node ---
+import { BiblePassage } from "@/components/tiptap-node/bible-passage-node/bible-passage-extension"
 import { ImageUploadNode } from "@/components/tiptap-node/image-upload-node/image-upload-node-extension"
 import { HorizontalRule } from "@/components/tiptap-node/horizontal-rule-node/horizontal-rule-node-extension"
+import "@/components/tiptap-node/bible-passage-node/bible-passage-node.scss"
 import "@/components/tiptap-node/blockquote-node/blockquote-node.scss"
 import "@/components/tiptap-node/code-block-node/code-block-node.scss"
 import "@/components/tiptap-node/horizontal-rule-node/horizontal-rule-node.scss"
@@ -53,6 +55,7 @@ import {
   BibleInsertContent,
   BibleInsertButton,
 } from "@/components/tiptap-ui/bible-insert-popover"
+import { useBibleInsertPopover } from "@/components/tiptap-ui/bible-insert-popover/use-bible-insert-popover"
 import {
   LinkPopover,
   LinkContent,
@@ -69,7 +72,6 @@ import { LinkIcon } from "@/components/tiptap-icons/link-icon"
 
 // --- Hooks ---
 import { useIsBreakpoint } from "@/hooks/use-is-breakpoint"
-import { useWindowSize } from "@/hooks/use-window-size"
 import { useCursorVisibility } from "@/hooks/use-cursor-visibility"
 
 // --- Components ---
@@ -90,6 +92,11 @@ export type SimpleEditorProps = {
   initialContent?: JSONContent | null
   /** Called after editor updates (including initial hydration); consumers may debounce saves. */
   onDocumentChange?: (doc: JSONContent) => void
+  /**
+   * `embedded`: fill a parent flex column (e.g. below a note title); toolbar sits above the scrolling body.
+   * `fullscreen`: standalone page height (demo route).
+   */
+  layout?: "embedded" | "fullscreen"
 }
 
 const MainToolbarContent = ({
@@ -97,11 +104,15 @@ const MainToolbarContent = ({
   onLinkClick,
   onBibleClick,
   isMobile,
+  bibleToolbarLabel,
+  biblePassageToolbarActive,
 }: {
   onHighlighterClick: () => void
   onLinkClick: () => void
   onBibleClick: () => void
   isMobile: boolean
+  bibleToolbarLabel: string
+  biblePassageToolbarActive: boolean
 }) => {
   return (
     <>
@@ -141,7 +152,13 @@ const MainToolbarContent = ({
         {!isMobile ? (
           <BibleInsertPopover />
         ) : (
-          <BibleInsertButton onClick={onBibleClick} />
+          <BibleInsertButton
+            onClick={onBibleClick}
+            tooltip={bibleToolbarLabel}
+            aria-label={bibleToolbarLabel}
+            data-active-state={biblePassageToolbarActive ? "on" : "off"}
+            aria-pressed={biblePassageToolbarActive}
+          />
         )}
       </ToolbarGroup>
 
@@ -214,9 +231,9 @@ const MobileToolbarContent = ({
 export function SimpleEditor({
   initialContent,
   onDocumentChange,
+  layout = "fullscreen",
 }: SimpleEditorProps = {}) {
   const isMobile = useIsBreakpoint()
-  const { height } = useWindowSize()
   const [mobileView, setMobileView] = useState<
     "main" | "highlighter" | "link" | "bible"
   >("main")
@@ -260,6 +277,7 @@ export function SimpleEditor({
         upload: handleImageUpload,
         onError: (error) => console.error("Upload failed:", error),
       }),
+      BiblePassage,
     ],
     content: documentContent,
     onUpdate: ({ editor }) => {
@@ -267,9 +285,10 @@ export function SimpleEditor({
     },
   })
 
-  const rect = useCursorVisibility({
+  useCursorVisibility({
     editor,
     overlayHeight: toolbarRef.current?.getBoundingClientRect().height ?? 0,
+    overlayPlacement: "top",
   })
 
   useEffect(() => {
@@ -278,9 +297,22 @@ export function SimpleEditor({
     }
   }, [isMobile, mobileView])
 
+  const { label: bibleToolbarLabel, passageActive: biblePassageToolbarActive } =
+    useBibleInsertPopover({
+      editor: editor ?? null,
+      hideWhenUnavailable: false,
+    })
+
   return (
     <YouVersionProvider appKey={YOUVERSION_APP_KEY} theme="dark">
-      <div className="simple-editor-wrapper">
+      <div
+        className={cn(
+          "simple-editor-wrapper",
+          layout === "embedded"
+            ? "simple-editor-wrapper--embedded"
+            : "simple-editor-wrapper--fullscreen",
+        )}
+      >
         <EditorContext.Provider value={{ editor }}>
           <Toolbar
             ref={toolbarRef}
@@ -289,13 +321,6 @@ export function SimpleEditor({
                 mobileView !== "main" &&
                 "tiptap-toolbar-mobile-expanded",
             )}
-            style={{
-              ...(isMobile
-                ? {
-                    bottom: `calc(100% - ${height - rect.y}px)`,
-                  }
-                : {}),
-            }}
           >
             {mobileView === "main" ? (
               <MainToolbarContent
@@ -303,6 +328,8 @@ export function SimpleEditor({
                 onLinkClick={() => setMobileView("link")}
                 onBibleClick={() => setMobileView("bible")}
                 isMobile={isMobile}
+                bibleToolbarLabel={bibleToolbarLabel}
+                biblePassageToolbarActive={biblePassageToolbarActive}
               />
             ) : (
               <MobileToolbarContent
@@ -312,11 +339,13 @@ export function SimpleEditor({
             )}
           </Toolbar>
 
-          <EditorContent
-            editor={editor}
-            role="presentation"
-            className="simple-editor-content"
-          />
+          <div className="simple-editor-scroll">
+            <EditorContent
+              editor={editor}
+              role="presentation"
+              className="simple-editor-content"
+            />
+          </div>
         </EditorContext.Provider>
       </div>
     </YouVersionProvider>

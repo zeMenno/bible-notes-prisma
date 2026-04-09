@@ -1,0 +1,33 @@
+---
+title: "Scripture inserts and locked passage text"
+description: "Why passage wording stays fixed, how metadata is stored, and how to replace a range on purpose."
+date: "2026-04-07"
+---
+
+# Scripture inserts and locked passage text
+
+The Bible picker in the editor talks to YouVersion Platform and drops passage text into a dedicated **biblePassage** block. That design keeps references machine readable and protects verse wording from accidental edits.
+
+## What gets stored on the block
+
+Attributes on the node carry **USFM**, the human readable **reference**, **version id**, and **version title**. Your cross reference ideas should read those fields instead of guessing from prose.
+
+## Why plain typing cannot change verse letters
+
+A ProseMirror filter rejects transactions that would alter the flattened text inside an existing passage. You can still delete the entire block if you no longer want it.
+
+## Marks are allowed
+
+Bold, underline, highlight, and similar marks can wrap words inside the passage paragraphs. That helps teaching notes stay visually clear without mutating Scripture characters.
+
+## Replacing a passage deliberately
+
+When you change translation or verse span, use the replace flow from the Bible UI. It sets special transaction metadata so the lock plugin allows the update. Random keystrokes still cannot slip past.
+
+## Older notes still open
+
+If you created notes before the structured node existed, migration runs when the note loads so blockquotes and legacy shapes normalize where possible.
+
+Learn the rest of the workflow in [Getting started with Bible Notes](/blog/getting-started).
+
+> "Heaven and earth will pass away, but my words will not pass away." (Matthew 24:35, WEB)

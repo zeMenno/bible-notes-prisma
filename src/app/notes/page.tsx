@@ -5,6 +5,8 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 
+import { NotesListClient } from "./_components/notes-list-client";
+
 function formatUpdatedAt(d: Date) {
   return new Intl.DateTimeFormat(undefined, {
     dateStyle: "medium",
@@ -67,21 +69,13 @@ export default async function NotesPage() {
             </Link>
           </div>
         ) : (
-          <ul className="flex flex-col gap-2">
-            {notes.map((note) => (
-              <li key={note.id}>
-                <Link
-                  href={`/notes/${note.id}`}
-                  className="block min-h-[3.5rem] rounded-xl border bg-card px-4 py-3 text-card-foreground shadow-sm transition-colors active:bg-accent/50"
-                >
-                  <span className="block font-medium">{note.title}</span>
-                  <span className="mt-0.5 block text-xs text-muted-foreground">
-                    Updated {formatUpdatedAt(note.updatedAt)}
-                  </span>
-                </Link>
-              </li>
-            ))}
-          </ul>
+          <NotesListClient
+            notes={notes.map((note) => ({
+              id: note.id,
+              title: note.title,
+              updatedLabel: formatUpdatedAt(note.updatedAt),
+            }))}
+          />
         )}
       </div>
     </div>
