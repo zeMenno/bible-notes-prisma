@@ -100,12 +100,18 @@ export default function HomePage() {
               title="Write study notes that stay tied to God’s Word."
               description="A focused editor for believers: insert passages, mark up what matters, and return later without losing context. Free to use."
             >
-              <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+              <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
                 <Link
                   href="/register"
                   className="inline-flex h-11 items-center justify-center rounded-full bg-foreground px-8 text-sm font-semibold text-background transition-opacity hover:opacity-90"
                 >
                   Start free
+                </Link>
+                <Link
+                  href="/simple"
+                  className="inline-flex h-11 items-center justify-center rounded-full border-2 border-primary bg-primary/10 px-8 text-sm font-semibold text-foreground transition-colors hover:bg-primary/15"
+                >
+                  Try live demo
                 </Link>
                 <Link
                   href="/login"
@@ -122,6 +128,41 @@ export default function HomePage() {
           </div>
         </Container>
       </section>
+
+      <Section
+        bordered
+        aria-label="Try the editor demo"
+        className="border-t-0 py-10 sm:py-12"
+      >
+        <div className="mx-auto flex max-w-4xl flex-col gap-6 rounded-2xl border border-primary/25 bg-gradient-to-br from-primary/15 via-muted/40 to-muted/20 p-8 shadow-sm sm:flex-row sm:items-center sm:justify-between sm:gap-10 sm:p-10">
+          <div className="min-w-0 text-center sm:text-left">
+            <p className="text-xs font-medium uppercase tracking-wider text-primary">
+              Hands on
+            </p>
+            <h2 className="mt-2 font-heading text-2xl font-bold tracking-tight sm:text-3xl">
+              Try the editor before you sign up
+            </h2>
+            <p className="mt-3 text-muted-foreground sm:text-lg">
+              Open the live demo to use the full toolbar, insert Scripture, and
+              explore formatting. Nothing is saved until you create an account.
+            </p>
+          </div>
+          <div className="flex shrink-0 flex-col items-stretch gap-3 sm:items-end">
+            <Link
+              href="/simple"
+              className="inline-flex h-12 items-center justify-center rounded-full bg-foreground px-8 text-sm font-semibold text-background transition-opacity hover:opacity-90"
+            >
+              Open live demo
+            </Link>
+            <Link
+              href="/register"
+              className="text-center text-sm font-medium text-muted-foreground underline-offset-4 hover:text-foreground hover:underline sm:text-right"
+            >
+              Or create a free account
+            </Link>
+          </div>
+        </div>
+      </Section>
 
       <Section bordered aria-label="Ways to use Bible Notes" className="py-10 sm:py-12">
         <p className="text-center text-xs font-medium uppercase tracking-wider text-muted-foreground">
@@ -197,11 +238,11 @@ export default function HomePage() {
                 <span className="text-primary" aria-hidden>
                   •
                 </span>
-                Try the non-saving demo on{" "}
+                The{" "}
                 <Link href="/simple" className="text-primary hover:underline">
-                  /simple
+                  live demo
                 </Link>{" "}
-                if you want to explore the toolbar first.
+                uses the same editor without saving.
               </li>
             </ul>
           </div>

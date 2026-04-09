@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
+import Link from "next/link"
 import { BookOpen } from "lucide-react"
 import { YouVersionProvider } from "@youversion/platform-react-ui"
 import type { JSONContent } from "@tiptap/core"
@@ -78,6 +79,7 @@ import { useCursorVisibility } from "@/hooks/use-cursor-visibility"
 import { ThemeToggle } from "@/components/tiptap-templates/simple/theme-toggle"
 
 // --- Lib ---
+import { siteName } from "@/lib/site-meta"
 import { cn, handleImageUpload, MAX_FILE_SIZE } from "@/lib/tiptap-utils"
 
 // --- Styles ---
@@ -314,6 +316,35 @@ export function SimpleEditor({
         )}
       >
         <EditorContext.Provider value={{ editor }}>
+          {layout === "fullscreen" ? (
+            <header className="flex shrink-0 items-center justify-between gap-2 border-b border-white/10 bg-[oklch(0.16_0.012_260)] px-3 py-2.5 sm:gap-4 sm:px-4">
+              <div className="flex min-w-0 items-center gap-2 sm:gap-3">
+                <Link
+                  href="/"
+                  className="truncate text-sm font-semibold text-white/95 transition-colors hover:text-white"
+                >
+                  {siteName}
+                </Link>
+                <span className="shrink-0 rounded-md border border-white/15 bg-white/5 px-2 py-0.5 text-[0.65rem] font-semibold uppercase tracking-wide text-white/70">
+                  Demo
+                </span>
+              </div>
+              <div className="flex shrink-0 items-center gap-2 sm:gap-3">
+                <Link
+                  href="/login"
+                  className="text-xs font-medium text-white/65 transition-colors hover:text-white sm:text-sm"
+                >
+                  Log in
+                </Link>
+                <Link
+                  href="/register"
+                  className="inline-flex h-9 items-center justify-center rounded-full bg-primary px-4 text-sm font-semibold text-primary-foreground transition-opacity hover:opacity-90 sm:px-5"
+                >
+                  Sign up free
+                </Link>
+              </div>
+            </header>
+          ) : null}
           <Toolbar
             ref={toolbarRef}
             className={cn(
