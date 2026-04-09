@@ -20,7 +20,7 @@ export const metadata: Metadata = {
 export default function ScriptureInNotesPage() {
   return (
     <>
-      <Section className="border-b border-border/50 pt-12 sm:pt-16">
+      <Section className="pt-12 sm:pt-16">
         <PageHero
           kicker="Features"
           title={title}
@@ -43,7 +43,7 @@ export default function ScriptureInNotesPage() {
         </PageHero>
       </Section>
 
-      <Section bordered>
+      <Section>
         <div className="grid gap-10 lg:grid-cols-2 lg:items-start">
           <div className="space-y-6">
             <h2 className="font-heading text-2xl font-semibold tracking-tight">

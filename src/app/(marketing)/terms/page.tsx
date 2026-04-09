@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 export default function TermsPage() {
   return (
     <>
-      <Section className="border-b border-border/50 pt-12 sm:pt-16">
+      <Section className="pt-12 sm:pt-16">
         <PageHero
           kicker="Legal"
           title={title}
@@ -22,7 +22,7 @@ export default function TermsPage() {
         />
       </Section>
 
-      <Section bordered>
+      <Section>
         <div className="max-w-3xl space-y-6 text-muted-foreground [&_h2]:font-heading [&_h2]:text-xl [&_h2]:font-semibold [&_h2]:text-foreground [&_strong]:text-foreground">
           <section className="space-y-3">
             <h2>Agreement</h2>

@@ -27,7 +27,7 @@ export default function BlogIndexPage() {
 
   return (
     <>
-      <Section className="border-b border-border/50 pt-12 sm:pt-16">
+      <Section className="pt-12 sm:pt-16">
         <PageHero
           kicker="Blog"
           title="Write with Scripture in view"

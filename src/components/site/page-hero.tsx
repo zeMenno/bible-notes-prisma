@@ -10,7 +10,7 @@ export function PageHero({
   children,
 }: {
   kicker?: ReactNode;
-  title: string;
+  title: ReactNode;
   description?: string;
   className?: string;
   children?: ReactNode;
@@ -24,7 +24,7 @@ export function PageHero({
       ) : null}
       <h1
         className={cn(
-          "font-heading text-4xl font-bold leading-[1.08] tracking-tight sm:text-5xl",
+          "text-balance font-heading text-4xl font-bold leading-[1.08] tracking-tight sm:text-5xl",
           kicker && "mt-4",
         )}
       >

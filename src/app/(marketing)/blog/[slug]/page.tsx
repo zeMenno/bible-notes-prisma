@@ -94,7 +94,7 @@ export default async function BlogPostPage({
 
   return (
     <>
-      <Section className="border-b border-border/50 pt-12 sm:pt-16">
+      <Section className="pt-12 sm:pt-16">
         <PageHero
           kicker={formattedDate}
           title={post.meta.title}

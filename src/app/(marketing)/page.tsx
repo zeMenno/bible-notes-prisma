@@ -12,6 +12,7 @@ import {
   type ShowcaseTab,
 } from "@/components/site/tabs-feature-showcase";
 import { PwaHomeInstallBlockLazy } from "@/components/site/pwa-install-lazy";
+import { MarketingBlobBackdrop } from "@/components/site/marketing-blobs";
 import { VerseCallout } from "@/components/site/verse-callout";
 import { featureNavLinks } from "@/lib/site-nav";
 import { siteDescription, siteName } from "@/lib/site-meta";
@@ -77,7 +78,7 @@ const showcaseTabs: ShowcaseTab[] = [
 export default function HomePage() {
   return (
     <>
-      <section className="relative overflow-hidden border-b border-border/50">
+      <section className="relative overflow-hidden">
         <div className="pointer-events-none absolute inset-0" aria-hidden>
           <div className="absolute -top-40 left-1/2 h-[min(28rem,50vh)] w-[min(100%,80rem)] -translate-x-1/2 rounded-full bg-primary/25 blur-3xl" />
           <div
@@ -98,7 +99,12 @@ export default function HomePage() {
           <div className="grid gap-12 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)] lg:items-center">
             <PageHero
               kicker="Scripture first notes"
-              title="Write study notes that stay tied to God’s Word."
+              title={
+                <>
+                  Write study notes that stay tied to{" "}
+                  <span className="text-primary">God&apos;s Word</span>.
+                </>
+              }
               description="A focused editor for believers: insert passages, mark up what matters, and return later without losing context. Free to use."
             >
               <div className="flex flex-col gap-3 sm:items-start">
@@ -136,17 +142,19 @@ export default function HomePage() {
       </section>
 
       <Section
-        bordered
         aria-label="Try the editor demo"
-        className="border-t-0 py-10 sm:py-12"
+        className="py-10 sm:py-12"
+        marketingBlobSeed="home-demo"
+        withMarketingBlobs
       >
         <div className="mx-auto flex max-w-4xl flex-col gap-6 rounded-2xl border border-primary/25 bg-gradient-to-br from-primary/15 via-muted/40 to-muted/20 p-8 shadow-sm sm:flex-row sm:items-center sm:justify-between sm:gap-10 sm:p-10">
           <div className="min-w-0 text-center sm:text-left">
             <p className="text-xs font-medium uppercase tracking-wider text-primary">
               Hands on
             </p>
-            <h2 className="mt-2 font-heading text-2xl font-bold tracking-tight sm:text-3xl">
-              Try the editor before you sign up
+            <h2 className="mt-2 text-balance font-heading text-2xl font-bold tracking-tight sm:text-3xl">
+              Try the <span className="text-primary">editor</span> before you sign
+              up
             </h2>
             <p className="mt-3 text-muted-foreground sm:text-lg">
               Open the live demo to use the full toolbar, insert Scripture, and
@@ -165,9 +173,14 @@ export default function HomePage() {
       </Section>
 
       
-      <Section bordered aria-label="Ways to use Bible Notes" className="py-10 sm:py-12">
-        <p className="text-center text-xs font-medium uppercase tracking-wider text-muted-foreground">
-          Fit the way you study today
+      <Section
+        aria-label="Ways to use Bible Notes"
+        className="py-10 sm:py-12"
+        marketingBlobSeed="home-use-cases"
+        
+      >
+        <p className="text-center text-balance text-xs font-medium uppercase tracking-wider text-muted-foreground">
+          Fit the way you <span className="text-primary">study</span> today
         </p>
         <div className="mx-auto mt-6 flex max-w-4xl flex-wrap justify-center gap-2 sm:gap-3">
           {useCaseChips.map((label) => (
@@ -184,17 +197,19 @@ export default function HomePage() {
 
 
       <Section
-        bordered
         aria-label="Install as an app"
-        className="border-t-0 py-10 sm:py-12"
+        className="py-10 sm:py-12"
+        marketingBlobSeed="home-install-app"
+        withMarketingBlobs
       >
         <div className="mx-auto flex max-w-4xl flex-col gap-6 rounded-2xl border border-border/80 bg-muted/15 p-8 shadow-sm sm:flex-row sm:items-center sm:justify-between sm:gap-10 sm:p-10">
           <div className="min-w-0 text-center sm:text-left">
             <p className="text-xs font-medium uppercase tracking-wider text-primary">
               Install
             </p>
-            <h2 className="mt-2 font-heading text-2xl font-bold tracking-tight sm:text-3xl">
-              Add Bible Notes to your Home Screen
+            <h2 className="mt-2 text-balance font-heading text-2xl font-bold tracking-tight sm:text-3xl">
+              Add Bible Notes to your{" "}
+              <span className="text-primary">Home Screen</span>
             </h2>
             <p className="mt-3 text-muted-foreground sm:text-lg">
               This site is a progressive web app: you can install it like a
@@ -219,14 +234,19 @@ export default function HomePage() {
       </Section>
 
 
-      <Section id="features" bordered>
+      <Section
+        id="features"
+        marketingBlobSeed="home-features"
+        
+      >
         <div className="mx-auto max-w-2xl text-center">
-          <h2 className="font-heading text-3xl font-bold tracking-tight sm:text-4xl">
-            Everything in one honest workflow
+          <h2 className="text-balance font-heading text-3xl font-bold tracking-tight sm:text-4xl">
+            Everything in one <span className="text-primary">honest</span>{" "}
+            workflow
           </h2>
-          <p className="mt-4 text-lg text-muted-foreground">
-            Pick a topic to read what the app actually does, with no borrowed hype
-            from other products.
+          <p className="mt-4 text-balance text-lg text-muted-foreground">
+            Pick a topic to read what the app actually does, with no borrowed{" "}
+            <span className="text-destructive">hype</span> from other products.
           </p>
         </div>
         <FeatureGrid className="mt-12">
@@ -242,12 +262,17 @@ export default function HomePage() {
         </FeatureGrid>
       </Section>
 
-      <Section bordered className="bg-muted/20">
+      <Section
+        className="bg-muted/20"
+        marketingBlobSeed="home-rhythms"
+        withMarketingBlobs
+      >
         <div className="mx-auto max-w-2xl text-center">
-          <h2 className="font-heading text-3xl font-bold tracking-tight sm:text-4xl">
-            Same tools, different rhythms
+          <h2 className="text-balance font-heading text-3xl font-bold tracking-tight sm:text-4xl">
+            Same <span className="text-primary">tools</span>,{" "}
+            <span className="text-primary">different rhythms</span>
           </h2>
-          <p className="mt-4 text-lg text-muted-foreground">
+          <p className="mt-4 text-balance text-lg text-muted-foreground">
             Tap a focus to see how existing features support that habit.
           </p>
         </div>
@@ -256,22 +281,26 @@ export default function HomePage() {
         </div>
       </Section>
       <Section
-        bordered
         aria-label="Note graph beta"
-        className="border-t-0 py-10 sm:py-12"
+        className="py-10 sm:py-12"
+        marketingBlobSeed="home-graph"
+        
       >
         <div className="mx-auto flex max-w-4xl flex-col gap-6 rounded-2xl border border-border/80 bg-muted/15 p-8 shadow-sm sm:flex-row sm:items-center sm:justify-between sm:gap-10 sm:p-10">
           <div className="min-w-0 text-center sm:text-left">
             <p className="text-xs font-medium uppercase tracking-wider text-primary">
               Beta
             </p>
-            <h2 className="mt-2 font-heading text-2xl font-bold tracking-tight sm:text-3xl">
-              Map how your notes connect through Scripture
+            <h2 className="mt-2 text-balance font-heading text-2xl font-bold tracking-tight sm:text-3xl">
+              Map how your notes connect through{" "}
+              <span className="text-primary">Scripture</span>
             </h2>
-            <p className="mt-3 text-muted-foreground sm:text-lg">
+            <p className="mt-3 text-balance text-muted-foreground sm:text-lg">
               After you sign in, open the note graph to explore your library visually.
               Each note is a point; lines appear when two notes share matching passage
-              metadata (not wiki-style links). Layout and filters are still evolving.
+              metadata (
+              <span className="text-destructive">not</span> wiki-style links).
+              Layout and filters are still evolving.
             </p>
             <div className="mt-4 flex flex-wrap items-center justify-center gap-4 sm:justify-start">
               <Link
@@ -297,11 +326,16 @@ export default function HomePage() {
         </div>
       </Section>
 
-      <Section bordered id="editor">
+      <Section
+        id="editor"
+        marketingBlobSeed="home-editor-app"
+        withMarketingBlobs
+      >
         <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:items-start">
           <div>
-            <h2 className="font-heading text-3xl font-bold tracking-tight sm:text-4xl">
-              Editor that respects Scripture
+            <h2 className="text-balance font-heading text-3xl font-bold tracking-tight sm:text-4xl">
+              Editor that respects{" "}
+              <span className="text-primary">Scripture</span>
             </h2>
             <p className="mt-4 max-w-xl text-lg text-muted-foreground">
               Passage text lives in a dedicated block: you can emphasize words, but
@@ -373,20 +407,15 @@ export default function HomePage() {
         </div>
       </Section>
 
-      <section className="relative overflow-hidden border-b border-border/50 bg-[oklch(0.12_0.01_260)] py-20 sm:py-24">
-        <div
-          className="pointer-events-none absolute -left-32 top-0 h-64 w-64 rounded-full bg-emerald-500/20 blur-3xl"
-          aria-hidden
-        />
-        <div
-          className="pointer-events-none absolute -right-24 bottom-0 h-72 w-72 rounded-full bg-violet-500/15 blur-3xl"
-          aria-hidden
-        />
-        <Container className="relative text-center">
-          <h2 className="mx-auto max-w-2xl font-heading text-3xl font-bold tracking-tight text-white sm:text-4xl">
-            Your notes belong with Scripture, not behind a paywall.
+      <section className="relative overflow-visible bg-[oklch(0.13_0.022_38)] py-20 sm:py-24">
+        <MarketingBlobBackdrop seed="home-paywall" />
+        <Container className="relative z-10 text-center">
+          <h2 className="mx-auto max-w-2xl text-balance font-heading text-3xl font-bold tracking-tight text-white sm:text-4xl">
+            Your notes belong with{" "}
+            <span className="text-primary">Scripture</span>, not behind a{" "}
+            <span className="text-red-300">paywall</span>.
           </h2>
-          <p className="mx-auto mt-4 max-w-xl text-lg text-white/70">
+          <p className="mx-auto mt-4 max-w-xl text-lg text-white/75">
             We keep the product free so anyone can meditate, learn, and obey without
             a subscription barrier.
           </p>

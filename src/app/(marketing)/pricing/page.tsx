@@ -44,7 +44,7 @@ const freeFeatures = [
 export default function PricingPage() {
   return (
     <>
-      <Section className="border-b border-border/50 pt-12 sm:pt-16">
+      <Section className="pt-12 sm:pt-16">
         <PageHero
           kicker="Pricing"
           title="Free for everyone who loves Scripture."
@@ -59,7 +59,7 @@ export default function PricingPage() {
         </PageHero>
       </Section>
 
-      <Section bordered>
+      <Section>
         <div className="mx-auto max-w-lg">
           <div className="rounded-2xl border border-border bg-card p-8 shadow-sm sm:p-10">
             <div className="flex items-baseline justify-between gap-4">
