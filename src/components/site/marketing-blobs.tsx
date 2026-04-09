@@ -9,22 +9,22 @@ function hashSeed(seed: string): number {
 }
 
 /**
- * Seeded diameter scale: compact (current “small”) up to very large glows.
- * Plain rem utilities only.
+ * Seeded diameter scale. Base (mobile) stays ≤18rem so edges + blur do not
+ * force page-wide horizontal scroll; large tiers grow from `sm` → `lg` → `xl`.
  */
 const BLOB_SIZES = [
   "h-48 w-48 sm:h-52 sm:w-52",
   "h-52 w-52 sm:h-56 sm:w-56",
   "h-56 w-56 sm:h-64 sm:w-64",
   "h-64 w-64 sm:h-72 sm:w-72",
+  "h-64 w-64 sm:h-72 sm:w-72 lg:h-80 lg:w-80",
   "h-72 w-72 sm:h-80 sm:w-80",
-  "h-72 w-72 sm:h-80 sm:w-80",
-  "h-80 w-80 sm:h-96 sm:w-96",
-  "h-96 w-96 sm:h-[24rem] sm:w-[24rem]",
-  "h-96 w-96 sm:h-[26rem] sm:w-[26rem]",
-  "h-96 w-96 sm:h-[28rem] sm:w-[28rem]",
-  "h-[22rem] w-[22rem] sm:h-[30rem] sm:w-[30rem]",
-  "h-[24rem] w-[24rem] sm:h-[32rem] sm:w-[32rem]",
+  "h-72 w-72 sm:h-80 sm:w-80 lg:h-96 lg:w-96",
+  "h-72 w-72 sm:h-96 sm:w-96 lg:h-[24rem] lg:w-[24rem]",
+  "h-72 w-72 sm:h-96 sm:w-96 lg:h-[26rem] lg:w-[26rem]",
+  "h-72 w-72 sm:h-96 sm:w-96 xl:h-[28rem] xl:w-[28rem]",
+  "h-72 w-72 sm:h-80 sm:w-80 lg:h-[28rem] lg:w-[28rem] xl:h-[30rem] xl:w-[30rem]",
+  "h-72 w-72 sm:h-96 sm:w-96 lg:h-[30rem] lg:w-[30rem] xl:h-[32rem] xl:w-[32rem]",
 ] as const;
 
 /** Placement + blur only; size comes from `BLOB_SIZES[hash % len]`. */
@@ -57,10 +57,7 @@ export function MarketingBlobs({ seed }: { seed: string }) {
   const tone = warmPrimary ? TONE_PRIMARY : TONE_DESTRUCTIVE;
 
   return (
-    <div
-      className="pointer-events-none absolute inset-0 overflow-visible"
-      aria-hidden
-    >
+    <div className="pointer-events-none absolute inset-0" aria-hidden>
       <div
         className={cn(
           "pointer-events-none absolute rounded-full",
@@ -75,13 +72,12 @@ export function MarketingBlobs({ seed }: { seed: string }) {
 }
 
 /**
- * One glow source per section; vertical inset lets blur soften into neighbors
- * without a second circle in the same band.
+ * One glow source per section; vertical inset lets blur soften into neighbors.
  */
 export function MarketingBlobBackdrop({ seed }: { seed: string }) {
   return (
     <div
-      className="pointer-events-none absolute inset-x-0 top-[-9rem] bottom-[-9rem] z-0 overflow-visible"
+      className="pointer-events-none absolute inset-x-0 top-[-9rem] bottom-[-9rem] z-0"
       aria-hidden
     >
       <div className="absolute inset-0 min-h-[16rem]">
