@@ -4,6 +4,7 @@ import { footerNavColumns } from "@/lib/site-nav";
 import { siteName } from "@/lib/site-meta";
 
 import { Container } from "./container";
+import { SiteBrandLink } from "./site-logo";
 
 export function SiteFooter() {
   return (
@@ -11,7 +12,7 @@ export function SiteFooter() {
       <Container>
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
           <div className="lg:col-span-2">
-            <p className="font-heading text-sm font-semibold">{siteName}</p>
+            <SiteBrandLink href="/" className="w-fit" logoSize={28} />
             <p className="mt-3 max-w-md text-sm leading-relaxed text-muted-foreground">
               Scripture quotations on this site marked WEB are from the World
               English Bible, public domain.

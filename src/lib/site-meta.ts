@@ -1,6 +1,9 @@
 /** App name and PWA metadata (aligned with `.dark` theme in globals.css). */
 export const siteName = "Bible Notes";
 
+/** Raster/SVG logo under `public` (see `SiteLogoMark` / `SiteBrandLink`). */
+export const siteLogoPath = "/icons/logo.svg";
+
 export const siteDescription =
   "Take Bible study notes with a rich editor and scripture references.";
 

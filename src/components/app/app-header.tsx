@@ -7,6 +7,7 @@ import { Menu } from "lucide-react";
 import { SignOutButton } from "@/components/auth/sign-out-button";
 import { BetaBadge } from "@/components/site/beta-badge";
 import { Container } from "@/components/site/container";
+import { SiteBrandLink } from "@/components/site/site-logo";
 import { appNavItems, isAppNavActive } from "@/lib/app-nav";
 import { siteName } from "@/lib/site-meta";
 import { cn } from "@/lib/utils";
@@ -25,19 +26,10 @@ export function AppHeader({ userEmail }: AppHeaderProps) {
     <header className="sticky top-0 z-50 border-b border-border/50 bg-background/80 backdrop-blur-md">
       <Container className="flex h-14 items-center justify-between gap-4">
         <div className="flex min-w-0 items-center gap-3 md:gap-6">
-          <Link
+          <SiteBrandLink
             href="/notes"
-            className="flex shrink-0 items-center gap-2.5"
-            aria-label={`${siteName}, go to notes`}
-          >
-            <span
-              className="size-2.5 rounded-sm bg-primary shadow-[0_0_12px_color-mix(in_oklch,var(--primary)_60%,transparent)]"
-              aria-hidden
-            />
-            <span className="font-heading text-sm font-semibold tracking-tight sm:text-base">
-              {siteName}
-            </span>
-          </Link>
+            ariaLabel={`${siteName}, go to notes`}
+          />
 
           <nav
             className="hidden items-center gap-1 md:flex"

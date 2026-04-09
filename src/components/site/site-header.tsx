@@ -5,11 +5,11 @@ import Link from "next/link";
 import { ChevronDown, Menu } from "lucide-react";
 
 import { featureNavLinks } from "@/lib/site-nav";
-import { siteName } from "@/lib/site-meta";
 import { cn } from "@/lib/utils";
 
 import { BetaBadge } from "./beta-badge";
 import { Container } from "./container";
+import { SiteBrandLink } from "./site-logo";
 
 const navLinkClass =
   "rounded-md px-3 py-2 text-sm text-muted-foreground transition-colors hover:text-foreground";
@@ -18,15 +18,7 @@ export function SiteHeader() {
   return (
     <header className="sticky top-0 z-50 border-b border-border/50 bg-background/80 backdrop-blur-md">
       <Container className="flex h-14 items-center justify-between gap-4">
-        <Link href="/" className="flex shrink-0 items-center gap-2.5">
-          <span
-            className="size-2.5 rounded-sm bg-primary shadow-[0_0_12px_color-mix(in_oklch,var(--primary)_60%,transparent)]"
-            aria-hidden
-          />
-          <span className="font-heading text-sm font-semibold tracking-tight sm:text-base">
-            {siteName}
-          </span>
-        </Link>
+        <SiteBrandLink href="/" />
 
         <nav
           className="hidden items-center gap-1 md:flex"

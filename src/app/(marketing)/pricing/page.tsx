@@ -4,6 +4,7 @@ import { Check } from "lucide-react";
 
 import { PageHero } from "@/components/site/page-hero";
 import { Section } from "@/components/site/section";
+import { SiteLogoMark } from "@/components/site/site-logo";
 import { VerseCallout } from "@/components/site/verse-callout";
 import { siteDescription, siteName } from "@/lib/site-meta";
 import { cn } from "@/lib/utils";
@@ -62,11 +63,14 @@ export default function PricingPage() {
         <div className="mx-auto max-w-lg">
           <div className="rounded-2xl border border-border bg-card p-8 shadow-sm sm:p-10">
             <div className="flex items-baseline justify-between gap-4">
-              <div>
-                <p className="text-sm font-medium text-primary">Bible Notes</p>
-                <h2 className="mt-1 font-heading text-2xl font-bold tracking-tight">
-                  Free
-                </h2>
+              <div className="flex min-w-0 items-start gap-3">
+                <SiteLogoMark size={40} className="mt-0.5 shrink-0 rounded-sm" />
+                <div>
+                  <p className="text-sm font-medium text-primary">{siteName}</p>
+                  <h2 className="mt-1 font-heading text-2xl font-bold tracking-tight">
+                    Free
+                  </h2>
+                </div>
               </div>
               <p className="text-right text-sm text-muted-foreground">
                 No credit card

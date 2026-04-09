@@ -4,6 +4,8 @@ import { useState } from "react";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
 
+import { SiteBrandLink } from "@/components/site/site-logo";
+
 type LoginFormProps = {
   callbackUrl: string;
 };
@@ -39,6 +41,7 @@ export function LoginForm({ callbackUrl }: LoginFormProps) {
   return (
     <div className="flex flex-1 items-center justify-center bg-background px-6 py-12">
       <div className="flex w-full max-w-md flex-col gap-4">
+        <SiteBrandLink href="/" className="mx-auto w-fit" logoSize={40} />
         <p className="text-sm">
           <Link
             className="text-muted-foreground underline underline-offset-4 hover:text-foreground"

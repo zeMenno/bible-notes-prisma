@@ -1,0 +1,21 @@
+{
+  "name": "Bible Notes",
+  "short_name": "Bible Notes",
+  "description": "Take Bible study notes with a rich editor and scripture references.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#171717",
+  "theme_color": "#ea580c",
+  "icons": [
+    {
+      "src": "/icons/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
