@@ -9,7 +9,7 @@ export function PageHero({
   className,
   children,
 }: {
-  kicker?: string;
+  kicker?: ReactNode;
   title: string;
   description?: string;
   className?: string;
@@ -18,9 +18,9 @@ export function PageHero({
   return (
     <div className={cn("max-w-3xl", className)}>
       {kicker ? (
-        <p className="text-xs font-medium uppercase tracking-widest text-primary">
+        <div className="text-xs font-medium uppercase tracking-widest text-primary">
           {kicker}
-        </p>
+        </div>
       ) : null}
       <h1
         className={cn(

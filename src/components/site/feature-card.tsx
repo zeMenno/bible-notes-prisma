@@ -9,12 +9,14 @@ export function FeatureCard({
   description,
   className,
   footer,
+  badge,
 }: {
   href: string;
   title: string;
   description: string;
   className?: string;
   footer?: ReactNode;
+  badge?: string;
 }) {
   return (
     <Link
@@ -24,9 +26,16 @@ export function FeatureCard({
         className,
       )}
     >
-      <h3 className="font-heading text-lg font-semibold tracking-tight group-hover:text-primary">
-        {title}
-      </h3>
+      <div className="flex flex-wrap items-center gap-2">
+        <h3 className="font-heading text-lg font-semibold tracking-tight group-hover:text-primary">
+          {title}
+        </h3>
+        {badge ? (
+          <span className="rounded-full border border-primary/40 bg-primary/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-primary">
+            {badge}
+          </span>
+        ) : null}
+      </div>
       <p className="mt-2 flex-1 text-sm leading-relaxed text-muted-foreground">
         {description}
       </p>

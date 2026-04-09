@@ -1,0 +1,35 @@
+---
+title: "Note graph (beta): scripture links across your library"
+description: "We shipped an interactive graph for signed-in users: nodes are notes, edges mean shared passage metadata. Here is how to use it and what beta means."
+date: "2026-04-09"
+---
+
+# Note graph (beta): scripture links across your library
+
+We added a **note graph** so you can see your library at a glance. It is labeled **beta** because we expect to tune layout, performance, and polish as more people use it.
+
+## Who can use it
+
+You need a free account. After you log in, open **Graph** from your notes list or **Note graph** from the dashboard.
+
+## What the lines mean
+
+Edges are **not** wiki links between note titles. A line appears when two notes each contain scripture inserts that **match** under the same rules as the cross-reference panel (including USFM overlap when both sides have structured `biblePassage` nodes, and reference-string fallback for older content).
+
+Notes without passages, or with no overlaps, still show up as dots without lines.
+
+## What you can do in the view
+
+- Pan and zoom the canvas.
+- **Find note** jumps to a title match and selects it.
+- **Min. link strength** hides weaker edges so busy graphs calm down.
+- Click a note to **select** it without moving the layout. Use **Focus neighborhood** for a local view (1 to 3 hops), then **Show all notes** to reset.
+- Double-click a node or use **Open note** to edit that note.
+
+## Why we call it beta
+
+The graph is built from your note JSON with a full-library scan, like other scripture features today. That is fine for typical personal use, but we want room to improve before we treat it as a finished “map of everything” experience.
+
+Read the marketing overview at [Note graph](/features/note-graph) or jump in from your account.
+
+> "Your word is a lamp to my feet, and a light for my path." (Psalm 119:105, WEB)

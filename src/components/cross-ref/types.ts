@@ -38,3 +38,18 @@ export type CrossRefTrendPoint = {
   weekLabel: string
   value: number
 }
+
+/** Node in GET /api/notes/graph (scripture overlap graph). */
+export type NoteGraphNode = {
+  id: string
+  title: string
+  updatedAt: string
+  passageCount: number
+}
+
+/** Undirected edge: shared scripture between two notes; weight = distinct matching passage pairs. */
+export type NoteGraphEdge = {
+  source: string
+  target: string
+  weight: number
+}

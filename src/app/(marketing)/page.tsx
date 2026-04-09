@@ -165,6 +165,25 @@ export default function HomePage() {
         </div>
       </Section>
 
+      
+      <Section bordered aria-label="Ways to use Bible Notes" className="py-10 sm:py-12">
+        <p className="text-center text-xs font-medium uppercase tracking-wider text-muted-foreground">
+          Fit the way you study today
+        </p>
+        <div className="mx-auto mt-6 flex max-w-4xl flex-wrap justify-center gap-2 sm:gap-3">
+          {useCaseChips.map((label) => (
+            <span
+              key={label}
+              className="rounded-full border border-border/80 bg-muted/30 px-4 py-2 text-sm text-muted-foreground"
+            >
+              {label}
+            </span>
+          ))}
+        </div>
+      </Section>
+
+
+
       <Section
         bordered
         aria-label="Install as an app"
@@ -200,21 +219,6 @@ export default function HomePage() {
         </div>
       </Section>
 
-      <Section bordered aria-label="Ways to use Bible Notes" className="py-10 sm:py-12">
-        <p className="text-center text-xs font-medium uppercase tracking-wider text-muted-foreground">
-          Fit the way you study today
-        </p>
-        <div className="mx-auto mt-6 flex max-w-4xl flex-wrap justify-center gap-2 sm:gap-3">
-          {useCaseChips.map((label) => (
-            <span
-              key={label}
-              className="rounded-full border border-border/80 bg-muted/30 px-4 py-2 text-sm text-muted-foreground"
-            >
-              {label}
-            </span>
-          ))}
-        </div>
-      </Section>
 
       <Section id="features" bordered>
         <div className="mx-auto max-w-2xl text-center">
@@ -233,6 +237,7 @@ export default function HomePage() {
               href={f.href}
               title={f.label}
               description={f.description}
+              badge={f.badge}
             />
           ))}
         </FeatureGrid>
@@ -249,6 +254,47 @@ export default function HomePage() {
         </div>
         <div className="mt-12">
           <TabsFeatureShowcase tabs={showcaseTabs} />
+        </div>
+      </Section>
+      <Section
+        bordered
+        aria-label="Note graph beta"
+        className="border-t-0 py-10 sm:py-12"
+      >
+        <div className="mx-auto flex max-w-4xl flex-col gap-6 rounded-2xl border border-border/80 bg-muted/15 p-8 shadow-sm sm:flex-row sm:items-center sm:justify-between sm:gap-10 sm:p-10">
+          <div className="min-w-0 text-center sm:text-left">
+            <p className="text-xs font-medium uppercase tracking-wider text-primary">
+              Beta
+            </p>
+            <h2 className="mt-2 font-heading text-2xl font-bold tracking-tight sm:text-3xl">
+              Map how your notes connect through Scripture
+            </h2>
+            <p className="mt-3 text-muted-foreground sm:text-lg">
+              After you sign in, open the note graph to explore your library visually.
+              Each note is a point; lines appear when two notes share matching passage
+              metadata (not wiki-style links). Layout and filters are still evolving.
+            </p>
+            <div className="mt-4 flex flex-wrap items-center justify-center gap-4 sm:justify-start">
+              <Link
+                href="/features/note-graph"
+                className="inline-flex text-sm font-medium text-primary underline-offset-4 hover:underline"
+              >
+                Read the feature overview
+                <span aria-hidden className="ml-1">
+                  →
+                </span>
+              </Link>
+              <Link
+                href="/blog/note-graph-beta"
+                className="inline-flex text-sm font-medium text-primary underline-offset-4 hover:underline"
+              >
+                Blog: what ships today
+                <span aria-hidden className="ml-1">
+                  →
+                </span>
+              </Link>
+            </div>
+          </div>
         </div>
       </Section>
 

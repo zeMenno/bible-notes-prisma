@@ -36,6 +36,7 @@
     "@youversion/platform-react-ui": "^1.22.2",
     "bcryptjs": "^3.0.3",
     "clsx": "^2.1.1",
+    "cytoscape": "^3.33.2",
     "gray-matter": "^4.0.3",
     "lodash.throttle": "^4.1.1",
     "lucide-react": "^1.7.0",

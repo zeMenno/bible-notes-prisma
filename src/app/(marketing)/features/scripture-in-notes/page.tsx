@@ -101,6 +101,10 @@ export default function ScriptureInNotesPage() {
             Notes and accounts
           </Link>
           {" · "}
+          <Link href="/features/note-graph" className="text-primary hover:underline">
+            Note graph (beta)
+          </Link>
+          {" · "}
           <Link href="/pricing" className="text-primary hover:underline">
             Pricing
           </Link>

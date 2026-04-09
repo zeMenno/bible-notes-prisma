@@ -8,6 +8,7 @@ import { featureNavLinks } from "@/lib/site-nav";
 import { siteName } from "@/lib/site-meta";
 import { cn } from "@/lib/utils";
 
+import { BetaBadge } from "./beta-badge";
 import { Container } from "./container";
 
 const navLinkClass =
@@ -53,8 +54,9 @@ export function SiteHeader() {
                       href={item.href}
                       className="block rounded-md px-3 py-2.5 text-sm outline-none data-[highlighted]:bg-muted"
                     >
-                      <span className="font-medium text-foreground">
+                      <span className="flex flex-wrap items-center gap-2 font-medium text-foreground">
                         {item.label}
+                        {item.badge ? <BetaBadge /> : null}
                       </span>
                       <span className="mt-0.5 block text-xs text-muted-foreground">
                         {item.description}
@@ -103,9 +105,10 @@ export function SiteHeader() {
                 <Link
                   key={item.href}
                   href={item.href}
-                  className="block px-3 py-2 text-sm hover:bg-muted"
+                  className="flex items-center justify-between gap-2 px-3 py-2 text-sm hover:bg-muted"
                 >
                   {item.label}
+                  {item.badge ? <BetaBadge /> : null}
                 </Link>
               ))}
               <div className="my-2 border-t border-border" />

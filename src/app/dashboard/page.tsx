@@ -4,6 +4,7 @@ import { getServerSession } from "next-auth";
 
 import { DashboardRecentNotes } from "@/components/cross-ref/dashboard/dashboard-recent-notes";
 import { ScriptureConnectionsSection } from "@/components/cross-ref/dashboard/scripture-connections-section";
+import { BetaBadge } from "@/components/site/beta-badge";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { computeScriptureDashboardAggregates } from "@/lib/scripture-dashboard-aggregates";
@@ -57,12 +58,19 @@ export default async function DashboardPage() {
             <p className="mt-1 font-medium">{session.user.email}</p>
           </div>
 
-          <div className="mt-6">
+          <div className="mt-6 flex flex-col gap-2 sm:flex-row sm:flex-wrap">
             <Link
               className="inline-flex h-11 min-h-11 w-full items-center justify-center rounded-md bg-primary text-sm font-medium text-primary-foreground sm:w-auto sm:px-6"
               href="/notes"
             >
               Open notes
+            </Link>
+            <Link
+              className="inline-flex h-11 min-h-11 w-full items-center justify-center gap-2 rounded-md border bg-background text-sm font-medium sm:w-auto sm:px-6"
+              href="/notes/graph"
+            >
+              Note graph
+              <BetaBadge />
             </Link>
           </div>
         </div>

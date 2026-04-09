@@ -2,6 +2,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { getServerSession } from "next-auth";
 
+import { BetaBadge } from "@/components/site/beta-badge";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 
@@ -48,6 +49,13 @@ export default async function NotesPage() {
               className="inline-flex h-11 min-h-11 items-center justify-center rounded-md border bg-background px-4 text-sm font-medium"
             >
               Dashboard
+            </Link>
+            <Link
+              href="/notes/graph"
+              className="inline-flex h-11 min-h-11 items-center justify-center gap-2 rounded-md border bg-background px-4 text-sm font-medium"
+            >
+              Graph
+              <BetaBadge />
             </Link>
             <Link
               href="/notes/new"

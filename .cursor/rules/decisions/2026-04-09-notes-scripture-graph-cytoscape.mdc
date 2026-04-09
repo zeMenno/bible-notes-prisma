@@ -1,0 +1,37 @@
+---
+description: Decision: scripture note graph (Cytoscape.js)
+alwaysApply: true
+---
+
+# Decision: scripture note graph (Cytoscape.js)
+
+- Date: 2026-04-09
+- Status: accepted
+- Scope: Signed-in notes graph UI, `/api/notes/graph`, graph dependency
+
+## Context
+
+We wanted an Obsidian-style graph of notes and links. This app does not use wiki links; connections come from shared scripture inserts, using the same matching rules as the cross-reference panel.
+
+## Decision
+
+- Expose **`GET /api/notes/graph`**: session-scoped JSON `{ nodes, edges }` built with [`buildScriptureNoteGraph`](src/lib/note-graph.ts) over the user’s notes.
+- **Nodes** include `id`, `title`, `updatedAt`, `passageCount`. **Edges** are undirected pairs with **`weight`** = count of distinct matching passage pairs between the two notes.
+- Ship a **signed-in** page at **`/notes/graph`** with **Cytoscape.js** (not D3): client-only init, `cose` layout, toolbar for local depth, title search, minimum link strength, open note on double-click.
+- Treat the graph as **beta** in product UI and marketing until layout and scale story mature; copy must stay accurate (edges = shared scripture).
+- **Do not** imply arbitrary note-to-note links; edges are **shared scripture only** until wiki links exist.
+
+## Constraints (must hold going forward)
+
+- Do not trust client-supplied `userId`; scope with `session.user.id` only.
+- Keep graph edge logic aligned with [`passagesMatch`](src/lib/note-cross-refs.ts) / cross-ref behavior; avoid duplicating matching rules in the client.
+- Marketing or help copy must stay accurate: graph strength reflects scripture overlap, not generic “links.”
+
+## Consequences / trade-offs
+
+- **Pros**: Faster to ship than a custom force graph; consistent cross-ref semantics; interactive exploration.
+- **Cons**: Full graph is **O(n²)** over notes like other scripture scans; Cytoscape adds bundle weight; very large libraries may need a citation index later.
+
+## Revisit conditions
+
+Revisit if we add **wiki-style note links**, a **citation index** for scale, or replace Cytoscape with another graph stack.
