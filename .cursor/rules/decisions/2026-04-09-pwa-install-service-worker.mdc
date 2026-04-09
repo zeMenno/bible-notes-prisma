@@ -1,0 +1,39 @@
+---
+description: Decision: PWA install UX and minimal service worker
+alwaysApply: true
+---
+
+# Decision: PWA install UX and minimal service worker
+
+- Date: 2026-04-09
+- Status: accepted
+- Scope: Public install surface, `public/sw.js`, root layout client registration, marketing copy accuracy
+
+## Context
+
+We already expose a web app manifest via `src/app/manifest.ts`. Chromium-style browsers only fire `beforeinstallprompt` when installability criteria are met, which includes a registered service worker with a fetch handler. Users on iOS Safari use Share → Add to Home Screen instead.
+
+## Decision
+
+- Ship a **minimal** `public/sw.js` that activates quickly, claims clients, and registers a **no-op fetch listener** so we do not cache responses or fight Next.js navigation.
+- Register that worker from the **root layout** in **production only** via `ServiceWorkerRegister`, to avoid service worker surprises during `next dev`.
+- Provide a **client-only install affordance** (`pwa-install.tsx`) that:
+  - Listens for `beforeinstallprompt`, then shows a button that calls `prompt()`.
+  - On iOS, shows **Share → Add to Home Screen** steps (no fake one-tap promise).
+  - Otherwise explains address bar / menu install and links to the blog guide.
+- Document behavior in **`content/blog/install-pwa-home-screen.mdx`** and surface a homepage block that links there.
+
+## Constraints (must hold going forward)
+
+- Do not turn the service worker into an offline cache or asset interceptor without a deliberate follow-up decision (risk of stale Next.js chunks and broken auth flows).
+- Keep marketing copy honest: install improves **access and shell UX**, not offline guarantees, unless we ship real offline support.
+- Preserve the iOS vs Chromium distinction in user-facing text.
+
+## Consequences / trade-offs
+
+- **Pros**: Eligible install prompts on Chromium; clearer user education; no extra app store pipeline.
+- **Cons**: Service worker is a footgun if someone later expands it without care; install testing requires a production build (`next build && next start`) or deployed HTTPS.
+
+## Revisit conditions
+
+Revisit if we add **offline editing**, **push notifications**, or a **real caching strategy**, or if we remove PWA install entirely.

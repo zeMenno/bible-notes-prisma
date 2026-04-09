@@ -1,0 +1,42 @@
+---
+title: "Install Bible Notes on your Home Screen (PWA)"
+description: "Use the site as an installed shortcut: what a PWA is, when you get a one-tap button, and how Safari on iPhone differs."
+date: "2026-04-09"
+---
+
+# Install Bible Notes on your Home Screen (PWA)
+
+Bible Notes ships as a **progressive web app** (PWA). That means you can **install** it from the browser: it gets an icon on your Home Screen or in your app launcher and often opens in its own window, similar to a store app, without us shipping a separate binary through an app store.
+
+## What you get when you install
+
+- A shortcut you can open from your Home Screen or taskbar.
+- A **standalone** window on many platforms (fewer browser chrome distractions).
+- The same account, notes, and editor you already use in the tab.
+
+Installing does not download a different product. It is still the website, just easier to open.
+
+## One-tap install (Chrome, Edge, and many Android browsers)
+
+On **desktop Chrome or Edge**, and on **Android** with a Chromium-based browser, the site can expose an **Add to Home Screen** or **Install** action when installability rules are satisfied (HTTPS, a web manifest, and a registered service worker). When that happens, you may see:
+
+- An **install icon** in the address bar, or
+- A button on this page (below) that opens the browser’s install dialog.
+
+<PwaInstallCallout />
+
+If you do not see the button, use the browser menu: look for **Install Bible Notes**, **Install app**, or **Add to Home Screen** (wording varies by version).
+
+## iPhone and iPad (Safari)
+
+Safari does **not** support the same programmatic install button. Use **Share**, then **Add to Home Screen**. That still creates a Home Screen icon that opens the site in a focused view.
+
+## After you install
+
+Updates ship when you use the site: there is no separate app store update step. If something looks stale, try opening the site once in a normal browser tab so the latest version can load.
+
+## Honest limits
+
+We do not promise offline editing or background sync yet. Install is mainly about **quick access** and a calmer full-screen shell.
+
+> "Your word is very pure; therefore your servant loves it." (Psalm 119:140, WEB)

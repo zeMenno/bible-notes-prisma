@@ -9,6 +9,7 @@ import {
   siteThemeColor,
 } from "@/lib/site-meta";
 import "./globals.css";
+import { ServiceWorkerRegister } from "@/components/site/service-worker-register";
 import { cn } from "@/lib/utils";
 
 const ralewayHeading = Raleway({subsets:['latin'],variable:'--font-heading'});
@@ -77,7 +78,10 @@ export default function RootLayout({
         ralewayHeading.variable,
       )}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        <ServiceWorkerRegister />
+        {children}
+      </body>
     </html>
   );
 }

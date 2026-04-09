@@ -1,0 +1,38 @@
+---
+description: Decision: Cross-reference matching and GET API
+alwaysApply: true
+---
+
+# Decision: Cross-reference matching and GET API
+
+- Date: 2026-04-09
+- Status: accepted
+- Scope: Note JSON scanning, `/api/notes/[id]/cross-refs`, editor client refresh, signed-in dashboard scripture aggregates
+
+## Context
+
+Cross-references should reflect which other notes share scripture with the open note, without a citation index table yet. The editor already stores Tiptap JSON with `biblePassage` attrs and may contain legacy blockquote inserts.
+
+## Decision
+
+- Expose **`GET /api/notes/[id]/cross-refs`** ([`src/app/api/notes/[id]/cross-refs/route.ts`](src/app/api/notes/[id]/cross-refs/route.ts)): session-scoped, 404 if the note is not owned by the user; loads **all** of the user’s notes in one Prisma query and runs pure matching in [`src/lib/note-cross-refs.ts`](src/lib/note-cross-refs.ts).
+- **Canonical overlap** for `biblePassage`: non-empty `usfm` strings are parsed with [`parseUsfmPassageRange`](src/lib/bible-usfm.ts); two passages match when book, chapter, and inclusive verse ranges overlap.
+- **Reference string fallback**: when either side lacks usable USFM overlap, or for **legacy–legacy** / **legacy–structured** pairs, match if **trimmed, lowercased** `reference` strings are equal and non-empty.
+- **Response shape**: `passagesInCurrentNote`, `relatedNotes` (excluding the current note, sorted by `updatedAt` desc), `crossRefCount` (length of `relatedNotes`). Chips under **In this note** use the open note’s metadata; each related row’s `overlappingPassages` use **that related note’s** matched passage metadata (so translation labels match what you see in that note).
+- **Client**: [`NoteEditorClient`](src/app/notes/_components/note-editor-client.tsx) refetches on mount, when the panel opens, and on debounced document changes (~750ms); header **badge** shows related count when greater than zero; related-note links **close** the panel before navigation ([`CrossRefPanel`](src/components/cross-ref/cross-ref-panel.tsx)).
+- **Dashboard** ([`src/app/dashboard/page.tsx`](src/app/dashboard/page.tsx)): one `findMany` for the user’s notes; [`computeScriptureDashboardAggregates`](src/lib/scripture-dashboard-aggregates.ts) returns **stats** (notes with scripture, passage instance count, notes linked by shared passages), **top passages** (canonical USFM or normalized reference key; count = distinct notes per key, cap 8), and **eight UTC weeks** of **scripture note activity** (count of notes with ≥1 passage whose `updatedAt` falls in that week, not passage insertion history). **Recently updated** lists the three notes with latest `updatedAt` from the same query ([`DashboardRecentNotes`](src/components/cross-ref/dashboard/dashboard-recent-notes.tsx)).
+
+## Constraints (must hold going forward)
+
+- Do not trust client-supplied `userId`; scope with `session.user.id` only.
+- Keep matching logic in **`note-cross-refs`** (or a successor lib module), not duplicated in route handlers.
+- **Do not** imply verse overlap beyond same-chapter USFM supported by `parseUsfmPassageRange`.
+
+## Consequences / trade-offs
+
+- **Pros**: No migration; works with existing JSON; predictable API for the panel and badge.
+- **Cons**: Full-table scan per request scales with note count and JSON size; may need caching or a **citation index** later.
+
+## Revisit conditions
+
+Revisit if we add a **Postgres citation index**, need cross-chapter or fuzzy reference matching, store **passage edit history** for accurate trends, or dashboard aggregates need a separate cached pipeline.

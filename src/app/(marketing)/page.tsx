@@ -11,6 +11,7 @@ import {
   TabsFeatureShowcase,
   type ShowcaseTab,
 } from "@/components/site/tabs-feature-showcase";
+import { PwaHomeInstallBlockLazy } from "@/components/site/pwa-install-lazy";
 import { VerseCallout } from "@/components/site/verse-callout";
 import { featureNavLinks } from "@/lib/site-nav";
 import { siteDescription, siteName } from "@/lib/site-meta";
@@ -160,6 +161,41 @@ export default function HomePage() {
             >
               Or create a free account
             </Link>
+          </div>
+        </div>
+      </Section>
+
+      <Section
+        bordered
+        aria-label="Install as an app"
+        className="border-t-0 py-10 sm:py-12"
+      >
+        <div className="mx-auto flex max-w-4xl flex-col gap-6 rounded-2xl border border-border/80 bg-muted/15 p-8 shadow-sm sm:flex-row sm:items-center sm:justify-between sm:gap-10 sm:p-10">
+          <div className="min-w-0 text-center sm:text-left">
+            <p className="text-xs font-medium uppercase tracking-wider text-primary">
+              Install
+            </p>
+            <h2 className="mt-2 font-heading text-2xl font-bold tracking-tight sm:text-3xl">
+              Add Bible Notes to your Home Screen
+            </h2>
+            <p className="mt-3 text-muted-foreground sm:text-lg">
+              This site is a progressive web app: you can install it like a
+              focused shortcut that opens full screen, without an app store. On
+              many phones and desktops the browser can show a one-tap install
+              prompt when criteria are met.
+            </p>
+            <Link
+              href="/blog/install-pwa-home-screen"
+              className="mt-4 inline-flex text-sm font-medium text-primary underline-offset-4 hover:underline"
+            >
+              Read the install guide
+              <span aria-hidden className="ml-1">
+                →
+              </span>
+            </Link>
+          </div>
+          <div className="flex min-w-0 shrink-0 flex-col items-stretch gap-3 sm:max-w-xs sm:items-end">
+            <PwaHomeInstallBlockLazy />
           </div>
         </div>
       </Section>

@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import type { AnchorHTMLAttributes } from "react";
 
 import { MdxProse } from "@/components/site/mdx-prose";
+import { PwaInstallCalloutLazy } from "@/components/site/pwa-install-lazy";
 import { PageHero } from "@/components/site/page-hero";
 import { Section } from "@/components/site/section";
 import { getAllSlugs, getPostBySlug } from "@/lib/blog";
@@ -81,6 +82,7 @@ export default async function BlogPostPage({
     source: post.body,
     components: {
       a: MdxLink,
+      PwaInstallCallout: PwaInstallCalloutLazy,
     },
   });
 

@@ -1,0 +1,35 @@
+---
+description: Decision: Cross-reference UI shell and dashboard charts (Recharts)
+alwaysApply: true
+---
+
+# Decision: Cross-reference UI shell and dashboard charts (Recharts)
+
+- Date: 2026-04-09
+- Status: accepted
+- Scope: Notes editor chrome, dashboard signed-in area, chart dependency
+
+## Context
+
+We need a discoverable surface for scripture cross-references while editing notes, plus dashboard visuals for how passages connect across a user’s library. The shell shipped first; **live dashboard aggregates** are computed in the dashboard Server Component via [`scripture-dashboard-aggregates`](src/lib/scripture-dashboard-aggregates.ts) (see [2026-04-09-cross-reference-matching.mdc](2026-04-09-cross-reference-matching.mdc)).
+
+## Decision
+
+- Add a **slide-over cross-reference panel** from the note editor header ([`CrossRefPanel`](src/components/cross-ref/cross-ref-panel.tsx)): mobile-first, overlay from the right, backdrop dismiss, Escape, focus return to the trigger, and stable prop types in [`src/components/cross-ref/types.ts`](src/components/cross-ref/types.ts) for API alignment.
+- Add a **Scripture connections** block on the signed-in dashboard ([`ScriptureConnectionsSection`](src/components/cross-ref/dashboard/scripture-connections-section.tsx)): stat cards plus **Recharts** bar and line charts.
+- Use **Recharts** (`recharts`) for SVG charts that respect theme CSS variables (`--chart-*`, `--border`, `--popover`, etc.).
+
+## Constraints (must hold going forward)
+
+- **Honest copy**: Dashboard chart subtitles must match what is computed (e.g. activity by `updatedAt` week, not passage insertion history). Do not imply metrics we do not calculate.
+- **Handoff**: Cross-reference matching should use note JSON and [`extractBiblePassagesFromDoc`](src/lib/note-bible-passages.ts) (see [2026-04-09-bible-passage-tiptap-node.mdc](2026-04-09-bible-passage-tiptap-node.mdc)); keep `CrossRef*` types in sync with routes.
+- Prefer **small, presentational** dashboard pieces under [`src/components/cross-ref/dashboard/`](src/components/cross-ref/dashboard/) so the page stays easy to compose from server data later.
+
+## Consequences / trade-offs
+
+- **Pros**: Clear UX for cross-refs; reusable types; charts without custom SVG maintenance.
+- **Cons**: Recharts adds bundle weight; dashboard JSON scans may need caching or a citation index later.
+
+## Revisit conditions
+
+Revisit if we add a **Postgres citation index**, replace Recharts with another chart stack, or collapse the panel into a docked desktop-only layout with shared layout state.
