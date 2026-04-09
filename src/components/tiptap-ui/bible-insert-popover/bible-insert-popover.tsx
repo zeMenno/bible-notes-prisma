@@ -261,7 +261,9 @@ export function BibleInsertMain({ editor, onInserted }: BibleInsertMainProps) {
       <CardBody
         className="bible-insert-card-body flex w-full flex-col gap-2"
         style={{
-          ...(isMobile ? { padding: 0 } : {}),
+          ...(isMobile
+            ? { padding: 0, paddingBottom: "0.5rem" }
+            : {}),
         }}
       >
         {!HAS_APP_KEY ? (

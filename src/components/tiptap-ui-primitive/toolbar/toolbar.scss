@@ -59,6 +59,39 @@
         flex: 0 0 auto;
       }
     }
+
+    /* Mobile sub-views (Bible / link / highlight): single-row height clips tall panels */
+    @media (max-width: 480px) {
+      &.tiptap-toolbar-mobile-expanded {
+        --tt-toolbar-mobile-inline: max(1rem, env(safe-area-inset-left, 0px));
+
+        height: auto;
+        min-height: calc(var(--tt-toolbar-height) + var(--tt-safe-area-bottom));
+        max-height: min(
+          85dvh,
+          calc(100dvh - env(safe-area-inset-top, 0px) - 0.5rem)
+        );
+        overflow-x: hidden;
+        overflow-y: auto;
+        flex-wrap: wrap;
+        align-content: flex-start;
+        align-items: flex-start;
+        row-gap: 0.5rem;
+        padding-top: 0.375rem;
+        padding-right: max(1rem, env(safe-area-inset-right, 0px));
+        padding-bottom: var(--tt-safe-area-bottom);
+        padding-left: var(--tt-toolbar-mobile-inline);
+
+        > .tiptap-separator {
+          display: none;
+        }
+
+        > .tiptap-toolbar-group:last-child {
+          flex: 1 1 100%;
+          min-width: 0;
+        }
+      }
+    }
   }
 
   &[data-variant="floating"] {

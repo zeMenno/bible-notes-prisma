@@ -16,3 +16,10 @@
   color: inherit;
   border: 1px solid var(--tiptap-card-border-color);
 }
+
+@media (max-width: 480px) {
+  .bible-insert-select {
+    min-height: 2.75rem;
+    padding: 0.375rem 0.5rem;
+  }
+}

@@ -76,7 +76,7 @@ import { useCursorVisibility } from "@/hooks/use-cursor-visibility"
 import { ThemeToggle } from "@/components/tiptap-templates/simple/theme-toggle"
 
 // --- Lib ---
-import { handleImageUpload, MAX_FILE_SIZE } from "@/lib/tiptap-utils"
+import { cn, handleImageUpload, MAX_FILE_SIZE } from "@/lib/tiptap-utils"
 
 // --- Styles ---
 import "@/components/tiptap-templates/simple/simple-editor.scss"
@@ -284,6 +284,11 @@ export function SimpleEditor({
         <EditorContext.Provider value={{ editor }}>
           <Toolbar
             ref={toolbarRef}
+            className={cn(
+              isMobile &&
+                mobileView !== "main" &&
+                "tiptap-toolbar-mobile-expanded",
+            )}
             style={{
               ...(isMobile
                 ? {
