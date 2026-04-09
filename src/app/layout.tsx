@@ -9,8 +9,11 @@ import {
   siteThemeColor,
 } from "@/lib/site-meta";
 import "./globals.css";
+import { AuthSessionProvider } from "@/components/auth/auth-session-provider";
 import { ServiceWorkerRegister } from "@/components/site/service-worker-register";
+import { authOptions } from "@/lib/auth";
 import { cn } from "@/lib/utils";
+import { getServerSession } from "next-auth";
 
 const ralewayHeading = Raleway({subsets:['latin'],variable:'--font-heading'});
 
@@ -59,11 +62,13 @@ export const viewport: Viewport = {
   colorScheme: "dark",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const session = await getServerSession(authOptions);
+
   return (
     <html
       lang="en"
@@ -80,7 +85,7 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col">
         <ServiceWorkerRegister />
-        {children}
+        <AuthSessionProvider session={session}>{children}</AuthSessionProvider>
       </body>
     </html>
   );

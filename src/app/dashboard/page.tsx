@@ -2,6 +2,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { getServerSession } from "next-auth";
 
+import { SignOutButton } from "@/components/auth/sign-out-button";
 import { DashboardRecentNotes } from "@/components/cross-ref/dashboard/dashboard-recent-notes";
 import { ScriptureConnectionsSection } from "@/components/cross-ref/dashboard/scripture-connections-section";
 import { BetaBadge } from "@/components/site/beta-badge";
@@ -45,12 +46,9 @@ export default async function DashboardPage() {
               <h1 className="text-2xl font-semibold tracking-tight">Dashboard</h1>
               <p className="mt-2 text-sm text-muted-foreground">Welcome, {displayName}.</p>
             </div>
-            <Link
-              className="inline-flex h-9 shrink-0 items-center justify-center rounded-md border bg-background px-3 text-sm font-medium"
-              href="/api/auth/signout?callbackUrl=/"
-            >
+            <SignOutButton className="inline-flex h-9 shrink-0 items-center justify-center rounded-md border bg-background px-3 text-sm font-medium">
               Sign out
-            </Link>
+            </SignOutButton>
           </div>
 
           <div className="mt-8 rounded-lg border bg-background p-4">

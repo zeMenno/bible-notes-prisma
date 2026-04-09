@@ -5,59 +5,13 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
 
+import { ConfirmModalDialog } from "@/components/ui/confirm-modal-dialog";
+
 export type NoteListItem = {
   id: string;
   title: string;
   updatedLabel: string;
 };
-
-function DeleteNoteDialog({
-  noteTitle,
-  dialogRef,
-  deleting,
-  error,
-  onCancel,
-  onConfirm,
-}: {
-  noteTitle: string;
-  dialogRef: React.RefObject<HTMLDialogElement | null>;
-  deleting: boolean;
-  error: string | null;
-  onCancel: () => void;
-  onConfirm: () => void;
-}) {
-  return (
-    <dialog
-      ref={dialogRef}
-      className="fixed top-1/2 left-1/2 w-[min(calc(100vw-2rem),22rem)] max-w-[calc(100vw-2rem)] -translate-x-1/2 -translate-y-1/2 rounded-xl border border-border bg-card p-6 text-card-foreground shadow-lg backdrop:bg-foreground/20 backdrop:backdrop-blur-[2px]"
-      onClose={onCancel}
-    >
-      <h2 className="text-lg font-semibold tracking-tight">Delete this note?</h2>
-      <p className="mt-2 text-sm text-muted-foreground">
-        &ldquo;{noteTitle}&rdquo; will be removed permanently. This cannot be undone.
-      </p>
-      {error ? <p className="mt-3 text-sm text-destructive">{error}</p> : null}
-      <div className="mt-6 flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
-        <button
-          type="button"
-          disabled={deleting}
-          className="inline-flex h-10 items-center justify-center rounded-md border bg-background px-4 text-sm font-medium disabled:opacity-60"
-          onClick={onCancel}
-        >
-          Cancel
-        </button>
-        <button
-          type="button"
-          disabled={deleting}
-          className="inline-flex h-10 items-center justify-center rounded-md bg-destructive px-4 text-sm font-medium text-white disabled:opacity-60"
-          onClick={onConfirm}
-        >
-          {deleting ? "Deleting…" : "Delete note"}
-        </button>
-      </div>
-    </dialog>
-  );
-}
 
 function NoteRow({ note }: { note: NoteListItem }) {
   const router = useRouter();
@@ -117,14 +71,18 @@ function NoteRow({ note }: { note: NoteListItem }) {
           </button>
         </div>
       </div>
-      <DeleteNoteDialog
-        noteTitle={note.title}
+      <ConfirmModalDialog
         dialogRef={dialogRef}
-        deleting={deleting}
+        title="Delete this note?"
         error={error}
+        busy={deleting}
+        busyLabel="Deleting…"
+        confirmLabel="Delete note"
         onCancel={closeDialog}
         onConfirm={confirmDelete}
-      />
+      >
+        &ldquo;{note.title}&rdquo; will be removed permanently. This cannot be undone.
+      </ConfirmModalDialog>
     </li>
   );
 }
