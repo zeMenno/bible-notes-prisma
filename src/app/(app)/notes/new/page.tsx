@@ -12,7 +12,7 @@ export default async function NewNotePage() {
   const note = await prisma.note.create({
     data: {
       userId: session.user.id,
-      title: "Untitled",
+      title: new Date().toLocaleDateString(),
       content: DEFAULT_NOTE_CONTENT,
     },
     select: { id: true },
