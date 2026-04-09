@@ -38,7 +38,7 @@ export function LoginForm({ callbackUrl }: LoginFormProps) {
 
   return (
     <div className="flex flex-1 items-center justify-center bg-background px-6 py-12">
-      <div className="w-full max-w-md rounded-xl border bg-card p-6 text-card-foreground shadow-sm">
+      <div className="flex w-full max-w-md flex-col gap-4">
         <p className="text-sm">
           <Link
             className="text-muted-foreground underline underline-offset-4 hover:text-foreground"
@@ -48,57 +48,59 @@ export function LoginForm({ callbackUrl }: LoginFormProps) {
           </Link>
         </p>
 
-        <h1 className="mt-4 text-2xl font-semibold tracking-tight">Sign in</h1>
-        <p className="mt-2 text-sm text-muted-foreground">Use your email and password to continue.</p>
+        <div className="rounded-xl border bg-card p-6 text-card-foreground shadow-sm">
+          <h1 className="text-2xl font-semibold tracking-tight">Sign in</h1>
+          <p className="mt-2 text-sm text-muted-foreground">Use your email and password to continue.</p>
 
-        <form className="mt-6 space-y-4" onSubmit={onSubmit}>
-          <div className="space-y-2">
-            <label className="text-sm font-medium" htmlFor="email">
-              Email
-            </label>
-            <input
-              id="email"
-              type="email"
-              autoComplete="email"
-              required
-              className="h-10 w-full rounded-md border bg-background px-3 text-sm"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-          </div>
+          <form className="mt-6 space-y-4" onSubmit={onSubmit}>
+            <div className="space-y-2">
+              <label className="text-sm font-medium" htmlFor="email">
+                Email
+              </label>
+              <input
+                id="email"
+                type="email"
+                autoComplete="email"
+                required
+                className="h-10 w-full rounded-md border bg-background px-3 text-sm"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </div>
 
-          <div className="space-y-2">
-            <label className="text-sm font-medium" htmlFor="password">
-              Password
-            </label>
-            <input
-              id="password"
-              type="password"
-              autoComplete="current-password"
-              required
-              className="h-10 w-full rounded-md border bg-background px-3 text-sm"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </div>
+            <div className="space-y-2">
+              <label className="text-sm font-medium" htmlFor="password">
+                Password
+              </label>
+              <input
+                id="password"
+                type="password"
+                autoComplete="current-password"
+                required
+                className="h-10 w-full rounded-md border bg-background px-3 text-sm"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </div>
 
-          {error ? <p className="text-sm text-destructive">{error}</p> : null}
+            {error ? <p className="text-sm text-destructive">{error}</p> : null}
 
-          <button
-            type="submit"
-            disabled={loading}
-            className="h-10 w-full rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground disabled:opacity-60"
-          >
-            {loading ? "Signing in..." : "Sign in"}
-          </button>
-        </form>
+            <button
+              type="submit"
+              disabled={loading}
+              className="h-10 w-full rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground disabled:opacity-60"
+            >
+              {loading ? "Signing in..." : "Sign in"}
+            </button>
+          </form>
 
-        <p className="mt-6 text-sm text-muted-foreground">
-          Don&apos;t have an account?{" "}
-          <Link className="text-foreground underline underline-offset-4" href="/register">
-            Create one
-          </Link>
-        </p>
+          <p className="mt-6 text-sm text-muted-foreground">
+            Don&apos;t have an account?{" "}
+            <Link className="text-foreground underline underline-offset-4" href="/register">
+              Create one
+            </Link>
+          </p>
+        </div>
       </div>
     </div>
   );

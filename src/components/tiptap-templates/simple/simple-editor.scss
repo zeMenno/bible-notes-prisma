@@ -69,9 +69,10 @@ body,
 }
 
 .simple-editor-wrapper--fullscreen {
-  min-height: 100dvh;
+  flex: 1 1 0;
+  min-height: 0;
+  width: 100%;
   box-sizing: border-box;
-  padding-top: env(safe-area-inset-top, 0px);
 }
 
 .simple-editor-wrapper--embedded {

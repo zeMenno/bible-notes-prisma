@@ -33,6 +33,7 @@
     "@tiptap/pm": "^3.22.3",
     "@tiptap/react": "^3.22.3",
     "@tiptap/starter-kit": "^3.22.3",
+    "@youversion/platform-core": "^1.22.2",
     "@youversion/platform-react-ui": "^1.22.2",
     "bcryptjs": "^3.0.3",
     "clsx": "^2.1.1",

@@ -5,7 +5,7 @@ import { LoginForm } from "./login-form";
 import { authOptions } from "@/lib/auth";
 import { safeAuthCallbackUrl } from "@/lib/auth-callback-url";
 
-const DEFAULT_CALLBACK = "/dashboard";
+const DEFAULT_CALLBACK = "/notes";
 
 type LoginPageProps = {
   searchParams: Promise<{ callbackUrl?: string | string[] }>;

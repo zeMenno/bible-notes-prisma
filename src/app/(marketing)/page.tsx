@@ -101,25 +101,30 @@ export default function HomePage() {
               title="Write study notes that stay tied to God’s Word."
               description="A focused editor for believers: insert passages, mark up what matters, and return later without losing context. Free to use."
             >
-              <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
-                <Link
-                  href="/register"
-                  className="inline-flex h-11 items-center justify-center rounded-full bg-foreground px-8 text-sm font-semibold text-background transition-opacity hover:opacity-90"
-                >
-                  Start free
-                </Link>
-                <Link
-                  href="/simple"
-                  className="inline-flex h-11 items-center justify-center rounded-full border-2 border-primary bg-primary/10 px-8 text-sm font-semibold text-foreground transition-colors hover:bg-primary/15"
-                >
-                  Try live demo
-                </Link>
-                <Link
-                  href="/login"
-                  className="inline-flex h-11 items-center justify-center rounded-full border border-border bg-transparent px-8 text-sm font-semibold transition-colors hover:bg-muted/50"
-                >
-                  Log in
-                </Link>
+              <div className="flex flex-col gap-3 sm:items-start">
+                <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
+                  <Link
+                    href="/register"
+                    className="inline-flex h-11 items-center justify-center rounded-full bg-foreground px-8 text-sm font-semibold text-background transition-opacity hover:opacity-90"
+                  >
+                    Start free
+                  </Link>
+                  <Link
+                    href="/simple"
+                    className="inline-flex h-11 items-center justify-center rounded-full border-2 border-primary bg-primary/10 px-8 text-sm font-semibold text-foreground transition-colors hover:bg-primary/15"
+                  >
+                    Try live demo
+                  </Link>
+                </div>
+                <p className="text-sm text-muted-foreground">
+                  Already have an account?{" "}
+                  <Link
+                    href="/login"
+                    className="font-medium text-foreground underline-offset-4 hover:underline"
+                  >
+                    Log in
+                  </Link>
+                </p>
               </div>
             </PageHero>
             <VerseCallout
@@ -151,15 +156,9 @@ export default function HomePage() {
           <div className="flex shrink-0 flex-col items-stretch gap-3 sm:items-end">
             <Link
               href="/simple"
-              className="inline-flex h-12 items-center justify-center rounded-full bg-foreground px-8 text-sm font-semibold text-background transition-opacity hover:opacity-90"
+              className="inline-flex h-12 items-center justify-center rounded-full border-2 border-primary bg-primary/10 px-8 text-sm font-semibold text-foreground transition-colors hover:bg-primary/15"
             >
               Open live demo
-            </Link>
-            <Link
-              href="/register"
-              className="text-center text-sm font-medium text-muted-foreground underline-offset-4 hover:text-foreground hover:underline sm:text-right"
-            >
-              Or create a free account
             </Link>
           </div>
         </div>

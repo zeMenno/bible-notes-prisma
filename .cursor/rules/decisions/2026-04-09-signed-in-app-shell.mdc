@@ -1,0 +1,37 @@
+---
+description: Decision: Signed-in app shell, default landing, and nav vocabulary
+alwaysApply: false
+globs: "src/app/(app)/**,src/components/app/**,src/lib/app-nav.ts"
+---
+
+# Decision: Signed-in app shell and default landing
+
+- Date: 2026-04-09
+- Status: accepted
+- Scope: Authenticated routes under `src/app/(app)/`, `AppHeader`, `app-nav`, post-login redirects
+
+## Context
+
+Signed-in pages (`/dashboard`, `/notes`, `/notes/graph`, note editor) each duplicated local navigation buttons. The note editor only linked back to the list, so global destinations were inconsistent. Marketing and demo routes used different chrome than the product.
+
+## Decision
+
+- Add a **route group layout** `(app)` that wraps dashboard and all `/notes/**` routes and renders a shared **`AppHeader`** on every signed-in screen, including the note editor (global bar above the per-note title row).
+- Treat **`/notes`** as the default signed-in **home**: brand link in `AppHeader` points there; **post-login and post-register** default redirects use **`/notes`** (credentials `callbackUrl` and registration success flow).
+- Centralize primary nav items in **`src/lib/app-nav.ts`**: Notes, Dashboard, Note graph (with beta badge on graph only in the UI). **New note** is the primary action button in the header (`/notes/new`).
+- **Nav vocabulary**: use **Note graph** (not “Graph”) in the app shell; keep **Start free** on marketing CTAs aligned with the existing site header.
+
+## Constraints (must hold going forward)
+
+- Do not trust client-supplied identity for data; `AppHeader` is presentation only. Auth guards remain on pages (or middleware if added later).
+- Add new signed-in top-level routes under `(app)` when they should share this shell.
+- Keep marketing honest: demo and docs links stay accurate.
+
+## Consequences / trade-offs
+
+- **Pros**: One persistent way to move between notes, dashboard, graph, and new note; less duplicated markup; clearer IA.
+- **Cons**: Slightly taller chrome on the note editor; any future full-bleed signed-in page must opt out explicitly if needed.
+
+## Revisit conditions
+
+Revisit if we add a sidebar layout, role-based nav, or change the default signed-in home (e.g. dashboard-first for a different persona).

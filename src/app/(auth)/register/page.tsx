@@ -33,7 +33,7 @@ export default function RegisterPage() {
       email,
       password,
       redirect: false,
-      callbackUrl: "/dashboard",
+      callbackUrl: "/notes",
     });
 
     setLoading(false);
@@ -43,13 +43,22 @@ export default function RegisterPage() {
       return;
     }
 
-    window.location.href = signInRes.url ?? "/dashboard";
+    window.location.href = signInRes.url ?? "/notes";
   }
 
   return (
     <div className="flex flex-1 items-center justify-center bg-background px-6 py-12">
       <div className="w-full max-w-md rounded-xl border bg-card p-6 text-card-foreground shadow-sm">
-        <h1 className="text-2xl font-semibold tracking-tight">Create account</h1>
+        <p className="text-sm">
+          <Link
+            className="text-muted-foreground underline underline-offset-4 hover:text-foreground"
+            href="/"
+          >
+            ← Back to website
+          </Link>
+        </p>
+
+        <h1 className="mt-4 text-2xl font-semibold tracking-tight">Create account</h1>
         <p className="mt-2 text-sm text-muted-foreground">Register with email and password.</p>
 
         <form className="mt-6 space-y-4" onSubmit={onSubmit}>

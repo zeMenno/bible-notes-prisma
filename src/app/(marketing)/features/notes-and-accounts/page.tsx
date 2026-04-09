@@ -8,7 +8,7 @@ import { siteName } from "@/lib/site-meta";
 
 const title = "Notes and accounts";
 const description =
-  "Sign up with email and password, open the dashboard, create notes, autosave edits, and delete what you no longer need. Your content stays tied to your login.";
+  "Sign up with email and password, open your notes from the top navigation, create notes, autosave edits, and delete what you no longer need. Your content stays tied to your login.";
 
 export const metadata: Metadata = {
   title,
@@ -31,7 +31,7 @@ export default function NotesAndAccountsPage() {
               href="/register"
               className="inline-flex h-11 items-center justify-center rounded-full bg-foreground px-8 text-sm font-semibold text-background transition-opacity hover:opacity-90"
             >
-              Create account
+              Start free
             </Link>
             <Link
               href="/login"

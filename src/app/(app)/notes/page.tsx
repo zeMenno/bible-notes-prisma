@@ -2,7 +2,6 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { getServerSession } from "next-auth";
 
-import { BetaBadge } from "@/components/site/beta-badge";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 
@@ -30,40 +29,17 @@ export default async function NotesPage() {
   });
 
   return (
-    <div className="min-h-dvh bg-background px-4 pb-8 pt-[max(1rem,env(safe-area-inset-top))]">
+    <div className="min-h-dvh bg-background px-4 pb-8 pt-4">
       <div className="mx-auto w-full max-w-lg">
-        <header className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <div>
-            <h1 className="font-heading text-2xl font-semibold tracking-tight text-foreground">
-              Notes
-            </h1>
-            <p className="mt-1 text-sm text-muted-foreground">
-              {notes.length === 0
-                ? "Create your first note."
-                : `${notes.length} note${notes.length === 1 ? "" : "s"}`}
-            </p>
-          </div>
-          <div className="flex flex-wrap gap-2">
-            <Link
-              href="/dashboard"
-              className="inline-flex h-11 min-h-11 items-center justify-center rounded-md border bg-background px-4 text-sm font-medium"
-            >
-              Dashboard
-            </Link>
-            <Link
-              href="/notes/graph"
-              className="inline-flex h-11 min-h-11 items-center justify-center gap-2 rounded-md border bg-background px-4 text-sm font-medium"
-            >
-              Graph
-              <BetaBadge />
-            </Link>
-            <Link
-              href="/notes/new"
-              className="inline-flex h-11 min-h-11 items-center justify-center rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground"
-            >
-              New note
-            </Link>
-          </div>
+        <header className="mb-6">
+          <h1 className="font-heading text-2xl font-semibold tracking-tight text-foreground">
+            Notes
+          </h1>
+          <p className="mt-1 text-sm text-muted-foreground">
+            {notes.length === 0
+              ? "Create your first note."
+              : `${notes.length} note${notes.length === 1 ? "" : "s"}`}
+          </p>
         </header>
 
         {notes.length === 0 ? (

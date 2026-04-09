@@ -78,6 +78,7 @@ function NoteRow({ note }: { note: NoteListItem }) {
         busy={deleting}
         busyLabel="Deleting…"
         confirmLabel="Delete note"
+        confirmVariant="primary"
         onCancel={closeDialog}
         onConfirm={confirmDelete}
       >

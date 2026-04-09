@@ -1,0 +1,36 @@
+---
+description: Decision: Dashboard verse of the day via YouVersion Platform
+alwaysApply: false
+globs: "src/app/(app)/dashboard/**,src/components/app/dashboard-welcome-card.tsx,src/lib/youversion-verse-of-the-day.ts"
+---
+
+# Decision: Dashboard verse of the day (YouVersion)
+
+- Date: 2026-04-09
+- Status: accepted
+- Scope: Signed-in dashboard welcome card, server data fetch, `@youversion/platform-core` usage
+
+## Context
+
+We wanted a lightweight spiritual anchor on the dashboard without new user settings. YouVersion already powers passage insert in the editor with an App Key.
+
+## Decision
+
+- Load **verse of the day** on the **dashboard** Server Component using **`@youversion/platform-core`**: `BibleClient.getVOTD(day)` for **local calendar day-of-year** (1–366), then **`getPassage`** with **`format: "text"`** and **`DEFAULT_LICENSE_FREE_BIBLE_VERSION`** (Berean Standard Bible, license-free in the SDK).
+- Render in **`DashboardWelcomeCard`** with **reference, verse text, translation label, and** “Scripture courtesy of YouVersion.” **Omit the block** when the app key is missing or the API fails (no error UI).
+- Declare **`@youversion/platform-core`** as a **direct** dependency (aligned with **`@youversion/platform-react-ui`** version).
+
+## Constraints (must hold going forward)
+
+- Keep **YouVersion attribution** on displayed scripture; do not strip required licensing copy.
+- **Do not trust client input** for VOTD; server-only fetch with **`NEXT_PUBLIC_YOUVERSION_APP_KEY`** (already public for the editor).
+- If we add **per-user translation preference**, revisit default `versionId` and possibly parallel `getVersion` usage.
+
+## Consequences / trade-offs
+
+- **Pros**: Consistent with official VOTD calendar; reuses existing env var; no OAuth.
+- **Cons**: Extra YouVersion calls on each dashboard load (no caching yet); default translation may not match the user’s insert preference; “today” follows **local** midnight, not YouVersion’s internal timezone if it differs.
+
+## Revisit conditions
+
+Revisit if we add **caching**, **user-selected Bible version** for VOTD, or **move VOTD behind a client widget** with the React SDK instead.

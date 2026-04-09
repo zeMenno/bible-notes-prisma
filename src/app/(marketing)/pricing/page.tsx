@@ -26,7 +26,7 @@ export const metadata: Metadata = {
 
 const freeFeatures = [
   "Email and password account with secure password hashing",
-  "Dashboard entry point after sign in",
+  "Top app navigation after sign in: Notes, Dashboard, Note graph, and New note",
   "Create, list, open, autosave, and delete your notes",
   "Rich text: headings, lists, task lists, blockquote, code block, horizontal rule",
   "Marks: bold, italic, strikethrough, code, underline, highlight, super and subscript",

@@ -58,9 +58,9 @@ export default function NoteGraphFeaturePage() {
             <ul className="space-y-4 text-muted-foreground">
               <li>
                 <strong className="text-foreground">Where to open it: </strong>
-                After you log in, use{" "}
-                <strong className="text-foreground">Graph</strong> from the notes list or{" "}
-                <strong className="text-foreground">Note graph</strong> from the dashboard.
+                After you log in, open{" "}
+                <strong className="text-foreground">Note graph</strong> from the top app bar
+                (next to Notes and Dashboard).
               </li>
               <li>
                 <strong className="text-foreground">What links mean: </strong>

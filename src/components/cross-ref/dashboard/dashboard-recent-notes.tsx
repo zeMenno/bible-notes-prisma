@@ -29,7 +29,7 @@ type Props = {
 export function DashboardRecentNotes({ notes }: Props) {
   return (
     <section
-      className="mt-6 rounded-xl border bg-card p-6 text-card-foreground shadow-sm"
+      className="rounded-xl border bg-card p-6 text-card-foreground shadow-sm"
       aria-labelledby="recent-notes-heading"
     >
       <h2
@@ -48,7 +48,7 @@ export function DashboardRecentNotes({ notes }: Props) {
               <li key={note.id}>
                 <Link
                   href={`/notes/${note.id}`}
-                  className="block rounded-lg border border-transparent px-1 py-1 transition-colors hover:border-border hover:bg-muted/50"
+                  className="block rounded-md px-3 py-2 text-sm transition-colors hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                 >
                   <span className="font-medium text-foreground">{label}</span>
                   <span className="mt-0.5 block text-xs text-muted-foreground">
