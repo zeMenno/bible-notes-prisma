@@ -10,7 +10,7 @@
       "content": [
         {
           "type": "text",
-          "text": "Getting started"
+          "text": "Notes for today"
         }
       ]
     },
@@ -22,7 +22,7 @@
       "content": [
         {
           "type": "text",
-          "text": "Welcome to the "
+          "text": "Begin with a slow breath. This page is a "
         },
         {
           "type": "text",
@@ -37,37 +37,11 @@
               }
             }
           ],
-          "text": "Simple Editor"
+          "text": "private place"
         },
         {
           "type": "text",
-          "text": " template! This template integrates "
-        },
-        {
-          "type": "text",
-          "marks": [
-            {
-              "type": "bold"
-            }
-          ],
-          "text": "open source"
-        },
-        {
-          "type": "text",
-          "text": " UI components and Tiptap extensions licensed under "
-        },
-        {
-          "type": "text",
-          "marks": [
-            {
-              "type": "bold"
-            }
-          ],
-          "text": "MIT"
-        },
-        {
-          "type": "text",
-          "text": "."
+          "text": " to hold prayer, questions, and the verses that stay with you."
         }
       ]
     },
@@ -79,7 +53,7 @@
       "content": [
         {
           "type": "text",
-          "text": "Integrate it by following the "
+          "text": "When you want fuller context, open "
         },
         {
           "type": "text",
@@ -87,18 +61,81 @@
             {
               "type": "link",
               "attrs": {
-                "href": "https://tiptap.dev/docs/ui-components/templates/simple-editor",
+                "href": "https://www.biblegateway.com/passage/?search=John+3&version=WEB",
                 "target": "_blank",
                 "rel": "noopener noreferrer nofollow",
                 "class": null
               }
             }
           ],
-          "text": "Tiptap UI Components docs"
+          "text": "John 3 in the World English Bible"
         },
         {
           "type": "text",
-          "text": " or using our CLI tool."
+          "text": " in another tab."
+        }
+      ]
+    },
+    {
+      "type": "biblePassage",
+      "attrs": {
+        "usfm": "JHN.3.16-17",
+        "reference": "John 3:16-17",
+        "versionId": 0,
+        "versionTitle": "World English Bible"
+      },
+      "content": [
+        {
+          "type": "paragraph",
+          "attrs": {
+            "textAlign": null
+          },
+          "content": [
+            {
+              "type": "text",
+              "text": "For God so loved the world, that he gave his one and only Son, that whoever believes in him should not perish, but have eternal life. For God didn't send his Son into the world to judge the world, but that the world might be saved through him."
+            }
+          ]
+        },
+        {
+          "type": "paragraph",
+          "attrs": {
+            "textAlign": null
+          },
+          "content": [
+            {
+              "type": "text",
+              "text": "John 3:16-17 (World English Bible). Scripture courtesy of YouVersion."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "attrs": {
+        "textAlign": "left"
+      },
+      "content": [
+        {
+          "type": "text",
+          "text": "Let that promise land where you need it most. Underline what stands out, add your own "
+        },
+        {
+          "type": "text",
+          "marks": [
+            {
+              "type": "highlight",
+              "attrs": {
+                "color": "var(--tt-color-highlight-blue)"
+              }
+            }
+          ],
+          "text": "questions and prayers"
+        },
+        {
+          "type": "text",
+          "text": " in the lines below."
         }
       ]
     },
@@ -110,7 +147,7 @@
       "content": [
         {
           "type": "text",
-          "text": "npx @tiptap/cli init"
+          "text": "Lamentations 3:22-23 — It is because of Yahweh's loving kindnesses that we are not consumed, because his mercies don't fail. They are new every morning. Great is your faithfulness."
         }
       ]
     },
@@ -123,7 +160,7 @@
       "content": [
         {
           "type": "text",
-          "text": "Features"
+          "text": "Carry these words"
         }
       ]
     },
@@ -143,51 +180,7 @@
                   "type": "italic"
                 }
               ],
-              "text": "A fully responsive rich text editor with built-in support for common formatting and layout tools. Type markdown "
-            },
-            {
-              "type": "text",
-              "marks": [
-                {
-                  "type": "code"
-                }
-              ],
-              "text": "**"
-            },
-            {
-              "type": "text",
-              "marks": [
-                {
-                  "type": "italic"
-                }
-              ],
-              "text": " or use keyboard shortcuts "
-            },
-            {
-              "type": "text",
-              "marks": [
-                {
-                  "type": "code"
-                }
-              ],
-              "text": "⌘+B"
-            },
-            {
-              "type": "text",
-              "text": " for "
-            },
-            {
-              "type": "text",
-              "marks": [
-                {
-                  "type": "strike"
-                }
-              ],
-              "text": "most"
-            },
-            {
-              "type": "text",
-              "text": " all common markdown marks. 🪄"
+              "text": "In nothing be anxious, but in everything, by prayer and petition with thanksgiving, let your requests be made known to God. And the peace of God, which surpasses all understanding, will guard your hearts and your thoughts in Christ Jesus."
             }
           ]
         }
@@ -201,23 +194,46 @@
       "content": [
         {
           "type": "text",
-          "text": "Add images, customize alignment, and apply "
+          "text": "Philippians 4:6-7 (WEB). When anxiety rises, return to the pattern: "
         },
         {
           "type": "text",
           "marks": [
             {
-              "type": "highlight",
-              "attrs": {
-                "color": "var(--tt-color-highlight-blue)"
-              }
+              "type": "bold"
             }
           ],
-          "text": "advanced formatting"
+          "text": "ask"
         },
         {
           "type": "text",
-          "text": " to make your writing more engaging and professional."
+          "text": ", "
+        },
+        {
+          "type": "text",
+          "marks": [
+            {
+              "type": "bold"
+            }
+          ],
+          "text": "thank"
+        },
+        {
+          "type": "text",
+          "text": ", and "
+        },
+        {
+          "type": "text",
+          "marks": [
+            {
+              "type": "bold"
+            }
+          ],
+          "text": "trust"
+        },
+        {
+          "type": "text",
+          "text": " the peace that guards your mind."
         }
       ]
     },
@@ -225,8 +241,8 @@
       "type": "image",
       "attrs": {
         "src": "/images/tiptap-ui-placeholder-image.jpg",
-        "alt": "placeholder-image",
-        "title": "placeholder-image"
+        "alt": "Open Bible resting on a wooden surface",
+        "title": "Open Bible resting on a wooden surface"
       }
     },
     {
@@ -252,7 +268,7 @@
                 },
                 {
                   "type": "text",
-                  "text": " (x"
+                  "text": ": footnotes in study Bibles often use a raised letter, like Amen"
                 },
                 {
                   "type": "text",
@@ -261,37 +277,11 @@
                       "type": "superscript"
                     }
                   ],
-                  "text": "2"
+                  "text": "a"
                 },
                 {
                   "type": "text",
-                  "text": ") and "
-                },
-                {
-                  "type": "text",
-                  "marks": [
-                    {
-                      "type": "bold"
-                    }
-                  ],
-                  "text": "Subscript"
-                },
-                {
-                  "type": "text",
-                  "text": " (H"
-                },
-                {
-                  "type": "text",
-                  "marks": [
-                    {
-                      "type": "subscript"
-                    }
-                  ],
-                  "text": "2"
-                },
-                {
-                  "type": "text",
-                  "text": "O) for precision."
+                  "text": " at the end of a line."
                 }
               ]
             }
@@ -313,11 +303,11 @@
                       "type": "bold"
                     }
                   ],
-                  "text": "Typographic conversion"
+                  "text": "Typography"
                 },
                 {
                   "type": "text",
-                  "text": ": automatically convert to "
+                  "text": ": watch a hyphen become an arrow when you type "
                 },
                 {
                   "type": "text",
@@ -330,7 +320,7 @@
                 },
                 {
                   "type": "text",
-                  "text": " an arrow "
+                  "text": " ("
                 },
                 {
                   "type": "text",
@@ -343,7 +333,46 @@
                 },
                 {
                   "type": "text",
-                  "text": "."
+                  "text": ") on its own."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "listItem",
+          "content": [
+            {
+              "type": "paragraph",
+              "attrs": {
+                "textAlign": "left"
+              },
+              "content": [
+                {
+                  "type": "text",
+                  "marks": [
+                    {
+                      "type": "bold"
+                    }
+                  ],
+                  "text": "Subscript"
+                },
+                {
+                  "type": "text",
+                  "text": ": living water is still H"
+                },
+                {
+                  "type": "text",
+                  "marks": [
+                    {
+                      "type": "subscript"
+                    }
+                  ],
+                  "text": "2"
+                },
+                {
+                  "type": "text",
+                  "text": "O, a small reminder of God's good gifts."
                 }
               ]
             }
@@ -372,14 +401,14 @@
             {
               "type": "link",
               "attrs": {
-                "href": "https://tiptap.dev/docs/ui-components/templates/simple-editor#features",
+                "href": "https://www.biblegateway.com/passage/?search=Matthew+5-7&version=WEB",
                 "target": "_blank",
                 "rel": "noopener noreferrer nofollow",
                 "class": null
               }
             }
           ],
-          "text": "Learn more"
+          "text": "Read the Sermon on the Mount (WEB)"
         }
       ]
     },
@@ -395,7 +424,7 @@
       "content": [
         {
           "type": "text",
-          "text": "Make it your own"
+          "text": "Small steps this week"
         }
       ]
     },
@@ -407,7 +436,7 @@
       "content": [
         {
           "type": "text",
-          "text": "Switch between light and dark modes, and tailor the editor's appearance with customizable CSS to match your style."
+          "text": "Keep a gentle rhythm: a few minutes of quiet, one chapter to read slowly, and one person to encourage. Highlights and lists can mark what matters when you look back."
         }
       ]
     },
@@ -428,7 +457,7 @@
               "content": [
                 {
                   "type": "text",
-                  "text": "Test template"
+                  "text": "Name one mercy you saw today"
                 }
               ]
             }
@@ -448,18 +477,7 @@
               "content": [
                 {
                   "type": "text",
-                  "marks": [
-                    {
-                      "type": "link",
-                      "attrs": {
-                        "href": "https://tiptap.dev/docs/ui-components/templates/simple-editor",
-                        "target": "_blank",
-                        "rel": "noopener noreferrer nofollow",
-                        "class": null
-                      }
-                    }
-                  ],
-                  "text": "Integrate the free template"
+                  "text": "Pray briefly for someone who feels overlooked"
                 }
               ]
             }
